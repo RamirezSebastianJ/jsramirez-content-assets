@@ -1,0 +1,9 @@
+1. Un cambio de configuración tumbó a Cloudflare dos veces en 2025.
+2. Su respuesta se llama Code Orange: Fail Small.
+3. Ahora los cambios se despliegan por etapas.
+4. Y se mide la salud del sistema en tiempo real.
+5. Si algo falla, vuelve a la última configuración buena.
+6. Y si no puede, decide si falla abierto o cerrado.
+7. El precio: despliegues más lentos.
+8. Mi lección: diseña para que un error afecte a pocos.
+9. Comenta SISTEMA y te envío mi guía.

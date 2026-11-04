@@ -1,0 +1,116 @@
+[
+ {
+  "dur": 3.6,
+  "voz": "Un cambio de configuración tumbó a Cloudflare dos veces en 2025.",
+  "sfx": [
+   [
+    1.5,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.0,
+  "voz": "Su respuesta se llama Code Orange: Fail Small.",
+  "sfx": [
+   [
+    0.9,
+    "blip"
+   ],
+   [
+    1.2,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.8,
+  "voz": "Ahora los cambios se despliegan por etapas.",
+  "sfx": [
+   [
+    0.5,
+    "blip"
+   ],
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    1.9,
+    "blip"
+   ],
+   [
+    2.6,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "Y se mide la salud del sistema en tiempo real.",
+  "sfx": [
+   [
+    1.75,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.2,
+  "voz": "Si algo falla, vuelve a la última configuración buena.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    2.0,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "Y si no puede, decide si falla abierto o cerrado.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    2.0,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.0,
+  "voz": "El precio: despliegues más lentos.",
+  "sfx": [
+   [
+    1.8,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.2,
+  "voz": "Mi lección: diseña para que un error afecte a pocos.",
+  "sfx": [
+   [
+    2.0,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.0,
+  "voz": "Comenta SISTEMA y te envío mi guía.",
+  "sfx": [
+   [
+    0.3,
+    "blip"
+   ]
+  ]
+ }
+]

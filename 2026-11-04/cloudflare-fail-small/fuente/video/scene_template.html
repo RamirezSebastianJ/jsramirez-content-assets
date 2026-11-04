@@ -1,0 +1,123 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'Space Grotesk';font-weight:500;src:url('../fonts/space-grotesk-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('../fonts/dm-sans-latin-400-normal.woff2') format('woff2')}
+html,body{margin:0;background:#0B0B0B;width:1080px;height:1920px;overflow:hidden}
+svg{display:block}
+text{font-family:'Space Grotesk';font-weight:700;fill:#F5F5F5}
+.m{font-weight:500}
+</style></head><body><svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+const SCENES = /*SCENES*/;
+const W='#F5F5F5', K='#0B0B0B', G='#8A8A8A', CX=480, CY=875;
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const eo=x=>1-Math.pow(1-cl(x),3), ei=x=>Math.pow(cl(x),3), eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const T=(x,y,s,str,o={})=>`<text x="${x}" y="${y}" font-size="${s}" text-anchor="${o.a||'middle'}" ${o.m?'class="m"':''} fill="${o.f||W}" style="fill:${o.f||W};opacity:${o.op??1}" ${o.ls?`letter-spacing="${o.ls}"`:''}>${str}</text>`;
+const R=(x,y,w,h,o={})=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${o.fill||'none'}" stroke="${o.stroke===undefined?W:o.stroke}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const L=(x1,y1,x2,y2,o={})=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${o.c||W}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const GX=135, GY=650, CW=90, GP=30;
+function grid(fn){ let s=''; for(let r=0;r<4;r++)for(let c=0;c<6;c++){ s+=fn(r,c,GX+c*(CW+GP),GY+r*(CW+GP),r*6+c);} return s; }
+const cross=(x,y,col)=>L(x+22,y+22,x+CW-22,y+CW-22,{c:col,sw:5})+L(x+CW-22,y+22,x+22,y+CW-22,{c:col,sw:5});
+
+const DRAW=[
+ // 0: gancho
+ (t,d)=>{ let s=T(CX,430,84,'UN CAMBIO DE',{op:eo(seg(t,0,.5))})+T(CX,525,84,'CONFIGURACIÓN',{op:eo(seg(t,.2,.7))});
+  const flip=t>1.5;
+  s+=R(330,590,300,56,{sw:2})+T(CX,628,26,'config.nueva',{m:1});
+  for(let i=0;i<6;i++){ s+=L(CX,646,GX+i*(CW+GP)+CW/2,GY,{op:.9*eo(seg(t,.7,1.4)),sw:1.5}); }
+  s+=grid((r,c,x,y)=>flip?R(x,y,CW,CW,{fill:W})+cross(x,y,K):R(x,y,CW,CW));
+  s+=T(CX,1250,64,'TODO A LA VEZ',{op:eo(seg(t,1.7,2.2))});
+  return s;},
+ // 1: Code Orange Fail Small
+ (t,d)=>{ const a='CODE ORANGE:'; const n=Math.floor(a.length*eo(seg(t,.1,1.0)));
+  let s=T(CX,700,92,a.slice(0,n))+T(CX,860,138,'FAIL',{op:eo(seg(t,.9,1.4))})+T(CX,1000,138,'SMALL',{op:eo(seg(t,1.2,1.7))});
+  s+=L(130,1060,130+700*eo(seg(t,1.5,2.2)),1060,{sw:2});
+  s+=T(CX,1130,38,'el plan de resiliencia de Cloudflare',{m:1,f:G,op:eo(seg(t,2,2.5))});
+  return s;},
+ // 2: por etapas
+ (t,d)=>{ let s=T(CX,430,92,'POR ETAPAS',{op:eo(seg(t,0,.4))});
+  const stages=[[0.5,[0]],[1.2,[1,2,6]],[1.9,[3,7,8,12,13,14,18]],[2.6,null]];
+  let st=0; stages.forEach((q,i)=>{ if(t>=q[0]) st=i+1; });
+  const lim=[1,4,11,24][Math.max(0,st-1)]; const order=[0,1,2,6,3,7,8,12,13,14,18,4,5,9,10,11,15,16,17,19,20,21,22,23];
+  const on=new Set(order.slice(0,st?lim:0));
+  s+=grid((r,c,x,y,i)=>on.has(i)?R(x,y,CW,CW,{fill:W}):R(x,y,CW,CW,{d:'6 5'}));
+  s+=T(CX,1250,52,st?`etapa ${st} de 4`:'',{m:1});
+  return s;},
+ // 3: salud en tiempo real
+ (t,d)=>{ let s=T(CX,430,76,'MIDE LA SALUD',{op:eo(seg(t,0,.4))})+T(CX,520,76,'EN TIEMPO REAL',{op:eo(seg(t,.2,.6))});
+  const x0=130,x1=830,yb=1250,yt=720;
+  s+=L(x0,yb,x1,yb,{c:G})+L(x0,yt,x0,yb,{c:G});
+  s+=L(x0,960,x1,960,{d:'8 6',sw:1.5})+T(x1,940,26,'umbral',{a:'end',m:1,f:G});
+  const pts=[];const N=60; const stopAt=.62;
+  for(let i=0;i<=N;i++){ const u=i/N; let y= u<.45?1010+Math.sin(u*18)*14 : 1010+(u-.45)/.2*Math.min(1,(u-.45)/.2)*230; pts.push([x0+u*(x1-x0),y]); }
+  const prog=eo(seg(t,.7,2.4)); const upto=Math.min(prog,stopAt);
+  let path='';pts.forEach((p,i)=>{ if(i/N<=upto) path+=(path?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1); });
+  s+=`<path d="${path}" fill="none" stroke="${W}" stroke-width="5"/>`;
+  if(prog>=stopAt){ const k=Math.round(stopAt*N); const px=pts[k][0],py=pts[k][1]; const q=eo(seg(t,1.75,2.1));
+   s+=`<circle cx="${px}" cy="${py}" r="${14*q}" fill="${W}"/>`+L(px,py,px,yt,{d:'6 5',op:q})+R(px-110,yt-62,220,52,{fill:W,op:q})+T(px,yt-25,28,'PAUSA',{f:K,op:q});}
+  s+=T(CX,1340,34,'si baja, el despliegue se frena',{m:1,f:G,op:eo(seg(t,2.2,2.7))});
+  return s;},
+ // 4: ultima buena conocida
+ (t,d)=>{ let s=T(CX,430,92,'VUELVE A LA',{op:eo(seg(t,0,.4))})+T(CX,535,92,'ÚLTIMA BUENA',{op:eo(seg(t,.2,.6))});
+  const a=eo(seg(t,.6,1.0));
+  s+=R(560,760,260,170,{fill:W,op:a})+T(690,865,64,'v2',{f:K,op:a});
+  if(t>1.0){ s+=L(600,780,780,910,{c:K,sw:6})+L(780,780,600,910,{c:K,sw:6}); }
+  const p=eo(seg(t,1.2,2.0));
+  s+=`<path d="M560,845 L${560-(560-380)*p},845" stroke="${W}" stroke-width="4" fill="none" stroke-dasharray="14 8"/>`;
+  s+=R(120,760,260,170,{fill:t>2.0?W:'none'})+T(250,865,64,'v1',{f:t>2.0?K:W});
+  s+=T(250,990,28,'última conocida buena',{m:1,f:G,op:eo(seg(t,2,2.4))});
+  return s;},
+ // 5: abierto o cerrado
+ (t,d)=>{ let s=T(CX,430,76,'SI NO PUEDE:',{op:eo(seg(t,0,.4))})+T(CX,525,76,'ABIERTO O CERRADO',{op:eo(seg(t,.2,.6))});
+  const a=eo(seg(t,.7,1.1)), b=eo(seg(t,1.6,2.0));
+  // abierto
+  s+=R(130,800,40,300,{fill:W,op:a})+R(330,800,40,300,{fill:W,op:a});
+  const ax=90+260*eo(seg(t,1.0,1.6)); s+=`<circle cx="${ax}" cy="950" r="18" fill="${W}" opacity="${a}"/>`;
+  s+=T(250,1180,34,'abierto',{op:a})+T(250,1225,26,'deja pasar',{m:1,f:G,op:a});
+  // cerrado
+  s+=R(590,800,40,300,{fill:W,op:b})+R(650,800,40,300,{fill:W,op:b});
+  const bx=520+(590-520-30)*eo(seg(t,2.0,2.5)); s+=`<circle cx="${bx}" cy="950" r="18" fill="${W}" opacity="${b}"/>`;
+  s+=T(640,1180,34,'cerrado',{op:b})+T(640,1225,26,'bloquea',{m:1,f:G,op:b});
+  return s;},
+ // 6: trade-off
+ (t,d)=>{ let s=T(CX,430,92,'EL PRECIO',{op:eo(seg(t,0,.4))});
+  const ang=8*eio(seg(t,.8,1.8));
+  s+=`<polygon points="${CX},1180 ${CX-60},1260 ${CX+60},1260" fill="none" stroke="${W}" stroke-width="2"/>`;
+  s+=`<g transform="rotate(${ang} ${CX} 1170)">`+L(CX-350,1170,CX+350,1170,{sw:4})
+    +R(CX-350,1030,250,100,{fill:'none'})+T(CX-225,1092,30,'VELOCIDAD')
+    +R(CX+100,1030,250,100,{fill:W})+T(CX+225,1092,30,'MENOS DAÑO',{f:K})+`</g>`;
+  s+=T(CX,1370,34,'despliegues más lentos',{m:1,f:G,op:eo(seg(t,1.8,2.3))});
+  return s;},
+ // 7: leccion
+ (t,d)=>{ let s=T(CX,430,110,'FALLA EN',{op:eo(seg(t,0,.4))})+T(CX,555,110,'PEQUEÑO',{op:eo(seg(t,.2,.6))});
+  const p=eio(seg(t,.9,2.0)); const r=300-230*p;
+  s+=`<circle cx="${CX}" cy="1020" r="${r}" fill="${p>.98?W:'none'}" stroke="${W}" stroke-width="3" ${p<.98?'stroke-dasharray="10 8"':''}/>`;
+  s+=T(CX,1020+10,p<.5?44:0,'TODOS',{f:W});
+  s+=T(CX,1190,36,p>.98?'radio de explosión pequeño':'',{m:1,f:G});
+  return s;},
+ // 8: CTA
+ (t,d)=>{ let s=T(CX,640,84,'COMENTA',{op:eo(seg(t,0,.4))});
+  const a=eo(seg(t,.3,.8)); s+=R(120,720,720,190,{fill:W,op:a})+T(CX,855,118,'SISTEMA',{f:K,op:a});
+  s+=T(CX,1010,40,'y te envío mi guía',{m:1,op:eo(seg(t,.9,1.3))});
+  s+=T(CX,1100,34,'sígueme y comparte con tu equipo',{m:1,f:G,op:eo(seg(t,1.4,1.9))});
+  return s;}
+];
+const STAR='<path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z" fill="#F5F5F5"/>';
+function render(tg){
+  let acc=0, i=0; for(;i<SCENES.length;i++){ if(tg<acc+SCENES[i].dur) break; acc+=SCENES[i].dur; }
+  if(i>=SCENES.length){ i=SCENES.length-1; acc-=SCENES[i].dur; }
+  const t=tg-acc, d=SCENES[i].dur;
+  const sc=Math.min(eo(seg(t,0,.28)), 1-ei(seg(t,d-.22,d)));
+  let body=DRAW[i](t,d);
+  let s=`<rect width="1080" height="1920" fill="${K}"/>`;
+  s+=`<g transform="translate(${CX} ${CY}) scale(${Math.max(sc,0.0001)}) translate(${-CX} ${-CY})">${body}</g>`;
+  if(sc<.2) s+=`<circle cx="${CX}" cy="${CY}" r="${10*(1-sc/.2)+2}" fill="${W}"/>`;
+  // marco fijo, etiqueta y marca de agua (zonas seguras)
+  s+=T(70,310,26,'[POST-MORTEM]  CLOUDFLARE',{a:'start',m:1,f:G,ls:2});
+  s+=T(890,310,26,String(i+1).padStart(2,'0')+' / '+String(SCENES.length).padStart(2,'0'),{a:'end',m:1,f:G});
+  s+=L(70,330,890,330,{c:G,sw:1});
+  s+=`<g transform="translate(70 1425)"><g transform="scale(1.1)">${STAR}</g></g>`+T(112,1448,26,'JSRamirez · @jsramirezdev',{a:'start',m:1});
+  document.getElementById('s').innerHTML=s;
+}
+</script></body></html>
