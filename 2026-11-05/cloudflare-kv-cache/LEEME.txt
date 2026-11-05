@@ -1,0 +1,5 @@
+Video "Valida la salida" (post-mortem KV cache de Cloudflare / Workers AI).
+Audio esperado en Drive (JSRamirez/Voz): 2026-11-05-cloudflare-kv-cache.m4a
+Montaje: python3 fuente/video/make_final.py <voz.m4a> <salida_dir>
+Previsualización: python3 fuente/video/make_video.py <salida_dir>
+Cierre propio = oraciones 8 y 9 del guion (marcadas [CIERRE]).

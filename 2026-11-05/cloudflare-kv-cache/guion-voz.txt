@@ -1,0 +1,9 @@
+1. Cloudflare filtró datos entre clientes en un modelo de IA.
+2. La causa: una configuración que no cuadraba.
+3. El modelo aceptaba prompts más largos que su caché.
+4. Un bug los cambiaba por un solo token.
+5. Y la caché servía datos de otra sesión.
+6. El cliente recibía un 200, no un error.
+7. Las pruebas solo miraban códigos HTTP y rendimiento.
+8. Mi lección: valida la salida, no solo que responda.   [CIERRE]
+9. Comenta SISTEMA y te envío mi guía.   [CIERRE]

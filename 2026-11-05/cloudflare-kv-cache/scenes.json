@@ -1,0 +1,114 @@
+[
+ {
+  "dur": 3.6,
+  "voz": "Cloudflare filtró datos entre clientes en un modelo de IA.",
+  "sfx": [
+   [
+    2.0,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "La causa: una configuración que no cuadraba.",
+  "sfx": [
+   [
+    1.5,
+    "blip"
+   ],
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "El modelo aceptaba prompts más largos que su caché.",
+  "sfx": [
+   [
+    1.9,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Un bug los cambiaba por un solo token.",
+  "sfx": [
+   [
+    1.6,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "Y la caché servía datos de otra sesión.",
+  "sfx": [
+   [
+    1.5,
+    "blip"
+   ],
+   [
+    2.0,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.0,
+  "voz": "El cliente recibía un 200, no un error.",
+  "sfx": [
+   [
+    0.8,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "Las pruebas solo miraban códigos HTTP y rendimiento.",
+  "sfx": [
+   [
+    0.8,
+    "blip"
+   ],
+   [
+    1.4,
+    "blip"
+   ],
+   [
+    2.0,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.2,
+  "voz": "Mi lección: valida la salida, no solo que responda.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    2.2,
+    "thud"
+   ]
+  ],
+  "cierre": true
+ },
+ {
+  "dur": 3.0,
+  "voz": "Comenta SISTEMA y te envío mi guía.",
+  "sfx": [
+   [
+    0.3,
+    "blip"
+   ]
+  ],
+  "cierre": true
+ }
+]
