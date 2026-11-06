@@ -1,0 +1,104 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'Space Grotesk';font-weight:500;src:url('../fonts/space-grotesk-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('../fonts/dm-sans-latin-400-normal.woff2') format('woff2')}
+html,body{margin:0;background:#0B0B0B;width:1080px;height:1920px;overflow:hidden}
+svg{display:block}
+text{font-family:'Space Grotesk';font-weight:700;fill:#F5F5F5}
+.m{font-weight:500}
+</style></head><body><svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+const SCENES = /*SCENES*/;
+const W='#F5F5F5', K='#0B0B0B', G='#8A8A8A', CX=480, CY=875;
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const eo=x=>1-Math.pow(1-cl(x),3), ei=x=>Math.pow(cl(x),3), eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const T=(x,y,s,str,o={})=>`<text x="${x}" y="${y}" font-size="${s}" text-anchor="${o.a||'middle'}" ${o.m?'class="m"':''} fill="${o.f||W}" style="fill:${o.f||W};opacity:${o.op??1}" ${o.ls?`letter-spacing="${o.ls}"`:''}>${str}</text>`;
+const R=(x,y,w,h,o={})=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${o.fill||'none'}" stroke="${o.stroke===undefined?W:o.stroke}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const L=(x1,y1,x2,y2,o={})=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${o.c||W}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const GX=135, GY=650, CW=90, GP=30;
+function grid(fn){ let s=''; for(let r=0;r<4;r++)for(let c=0;c<6;c++){ s+=fn(r,c,GX+c*(CW+GP),GY+r*(CW+GP),r*6+c);} return s; }
+const cross=(x,y,col)=>L(x+22,y+22,x+CW-22,y+CW-22,{c:col,sw:5})+L(x+CW-22,y+22,x+22,y+CW-22,{c:col,sw:5});
+
+const DRAW=[
+ // 0 gancho
+ (t,d)=>{ let s=T(CX,430,84,'PAGÓ UNA VEZ',{op:eo(seg(t,0,.5))})+T(CX,525,84,'COBRADO DOS',{op:eo(seg(t,.2,.7))});
+  s+=R(130,760,700,110,{op:eo(seg(t,.6,1.1))})+T(CX,830,44,'cobro  $ 50',{m:1,op:eo(seg(t,.6,1.1))});
+  s+=R(130,900,700,110,{fill:W,op:eo(seg(t,1.6,2.1))})+T(CX,970,44,'cobro  $ 50',{f:K,op:eo(seg(t,1.6,2.1))});
+  return s;},
+ // 1 usuario toca dos veces
+ (t,d)=>{ let s=T(CX,430,76,'EL PAGO TARDÓ',{op:eo(seg(t,0,.5))})+T(CX,520,76,'Y TOCÓ OTRA VEZ',{op:eo(seg(t,.2,.7))});
+  s+=R(250,760,460,150,{fill:W,op:eo(seg(t,.6,1.0))})+T(CX,855,56,'PAGAR',{f:K,op:eo(seg(t,.6,1.0))});
+  s+=T(CX,1010,34,'toque 1',{m:1,f:G,op:eo(seg(t,1.0,1.4))});
+  s+=T(CX,1070,34,'toque 2',{m:1,f:G,op:eo(seg(t,2.0,2.4))});
+  return s;},
+ // 2 dos solicitudes
+ (t,d)=>{ let s=T(CX,430,76,'DOS SOLICITUDES',{op:eo(seg(t,0,.5))})+T(CX,520,76,'IDÉNTICAS',{op:eo(seg(t,.2,.7))});
+  s+=R(110,760,200,160,{})+T(210,850,32,'CLIENTE');
+  s+=R(650,760,200,160,{})+T(750,850,32,'SERVIDOR');
+  const p=eo(seg(t,.8,1.6)), q=eo(seg(t,1.5,2.3));
+  s+=L(310,800,310+340*p,800,{sw:4})+L(310,880,310+340*q,880,{sw:4});
+  s+=T(CX,1010,32,'mismo pago, mismo monto',{m:1,f:G,op:eo(seg(t,2.2,2.7))});
+  return s;},
+ // 3 procesó las dos
+ (t,d)=>{ let s=T(CX,430,84,'Y PROCESÓ',{op:eo(seg(t,0,.4))})+T(CX,525,84,'LAS DOS',{op:eo(seg(t,.2,.6))});
+  s+=R(130,760,700,110,{fill:W,op:eo(seg(t,.6,1.1))})+T(CX,830,44,'cobro 1  ✓',{f:K,op:eo(seg(t,.6,1.1))});
+  s+=R(130,900,700,110,{fill:W,op:eo(seg(t,1.2,1.7))})+T(CX,970,44,'cobro 2  ✓',{f:K,op:eo(seg(t,1.2,1.7))});
+  return s;},
+ // 4 la solución: clave
+ (t,d)=>{ let s=T(CX,430,76,'UNA CLAVE DE',{op:eo(seg(t,0,.5))})+T(CX,525,76,'IDEMPOTENCIA',{op:eo(seg(t,.2,.7))});
+  const a=eo(seg(t,.7,1.4));
+  s+=R(130,780,700,130,{op:a})+T(CX,862,40,'Idempotency-Key: a1b2-c3d4',{m:1,op:a});
+  s+=T(CX,1010,32,'un identificador único por operación',{m:1,f:G,op:eo(seg(t,1.7,2.3))});
+  return s;},
+ // 5 misma clave en cada reintento
+ (t,d)=>{ let s=T(CX,430,76,'MISMA CLAVE',{op:eo(seg(t,0,.5))})+T(CX,525,76,'EN CADA REINTENTO',{op:eo(seg(t,.2,.7))});
+  [['intento 1',.7],['intento 2',1.4],['intento 3',2.1]].forEach((r,i)=>{ const y=740+i*130,a=eo(seg(t,r[1],r[1]+.4));
+   s+=R(130,y,700,100,{op:a})+T(170,y+66,38,r[0],{a:'start',op:a})+T(790,y+66,34,'a1b2-c3d4',{a:'end',m:1,f:G,op:a}); });
+  return s;},
+ // 6 servidor guarda clave + resultado
+ (t,d)=>{ let s=T(CX,430,76,'GUARDA LA CLAVE',{op:eo(seg(t,0,.5))})+T(CX,525,76,'CON EL RESULTADO',{op:eo(seg(t,.2,.7))});
+  const a=eo(seg(t,.7,1.3)), b=eo(seg(t,1.4,2.0));
+  s+=R(130,760,700,70,{op:a})+T(170,810,32,'clave',{a:'start',m:1,f:G,op:a})+T(790,810,32,'resultado',{a:'end',m:1,f:G,op:a});
+  s+=R(130,830,700,110,{fill:W,op:b})+T(170,900,36,'a1b2-c3d4',{a:'start',f:K,op:b})+T(790,900,36,'cobro OK',{a:'end',f:K,op:b});
+  return s;},
+ // 7 clave existe: devuelve resultado
+ (t,d)=>{ let s=T(CX,430,72,'SI LA CLAVE EXISTE',{op:eo(seg(t,0,.5))})+T(CX,520,72,'NO COBRA DE NUEVO',{op:eo(seg(t,.2,.7))});
+  s+=R(130,760,700,110,{op:eo(seg(t,.6,1.0))})+T(CX,830,40,'¿a1b2-c3d4 ya existe?',{m:1,op:eo(seg(t,.6,1.0))});
+  s+=L(CX,870,CX,950,{op:eo(seg(t,1.2,1.6)),sw:3});
+  s+=R(130,950,700,110,{fill:W,op:eo(seg(t,1.4,1.9))})+T(CX,1020,40,'devuelve: cobro OK',{f:K,op:eo(seg(t,1.4,1.9))});
+  s+=T(CX,1140,32,'sin ejecutar el cobro otra vez',{m:1,f:G,op:eo(seg(t,2.3,2.8))});
+  return s;},
+ // 8 cierre: lección
+ (t,d)=>{ let s=T(CX,430,92,'LOS REINTENTOS',{op:eo(seg(t,0,.4))})+T(CX,540,92,'SON NORMALES',{op:eo(seg(t,.2,.6))});
+  const a=eo(seg(t,.9,1.6));
+  s+=R(130,800,700,120,{op:a})+T(CX,880,40,'diseña para ellos',{m:1,op:a});
+  s+=L(130,990,130+700*eo(seg(t,1.4,2.2)),990,{sw:2});
+  s+=T(CX,1070,34,'misma solicitud, mismo efecto',{m:1,f:G,op:eo(seg(t,2,2.6))});
+  return s;},
+ // 9 cierre: CTA
+ (t,d)=>{ let s=T(CX,640,84,'COMENTA',{op:eo(seg(t,0,.4))});
+  const a=eo(seg(t,.3,.8)); s+=R(120,720,720,190,{fill:W,op:a})+T(CX,855,118,'SISTEMA',{f:K,op:a});
+  s+=T(CX,1010,40,'y te envío mi guía',{m:1,op:eo(seg(t,.9,1.3))});
+  s+=T(CX,1100,34,'sígueme y comparte con tu equipo',{m:1,f:G,op:eo(seg(t,1.4,1.9))});
+  return s;}
+];
+
+const STAR='<path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z" fill="#F5F5F5"/>';
+function render(tg){
+  let acc=0, i=0; for(;i<SCENES.length;i++){ if(tg<acc+SCENES[i].dur) break; acc+=SCENES[i].dur; }
+  if(i>=SCENES.length){ i=SCENES.length-1; acc-=SCENES[i].dur; }
+  const tl=tg-acc, d=SCENES[i].dur, kk=(SCENES[i].base||d)/d, t=tl*kk;
+  const sc=Math.min(eo(seg(tl,0,.28)), 1-ei(seg(tl,d-.22,d)));
+  let body=DRAW[i](t,d);
+  let s=`<rect width="1080" height="1920" fill="${K}"/>`;
+  s+=`<g transform="translate(${CX} ${CY}) scale(${Math.max(sc,0.0001)}) translate(${-CX} ${-CY})">${body}</g>`;
+  if(sc<.2) s+=`<circle cx="${CX}" cy="${CY}" r="${10*(1-sc/.2)+2}" fill="${W}"/>`;
+  // marco fijo, etiqueta y marca de agua (zonas seguras)
+  s+=T(70,310,26,'[ARCHITECTURE]  IDEMPOTENCIA',{a:'start',m:1,f:G,ls:2});
+  s+=T(890,310,26,String(i+1).padStart(2,'0')+' / '+String(SCENES.length).padStart(2,'0'),{a:'end',m:1,f:G});
+  s+=L(70,330,890,330,{c:G,sw:1});
+  s+=`<g transform="translate(70 1425)"><g transform="scale(1.1)">${STAR}</g></g>`+T(112,1448,26,'JSRamirez · @jsramirezdev',{a:'start',m:1});
+  document.getElementById('s').innerHTML=s;
+}
+</script></body></html>

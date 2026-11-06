@@ -1,0 +1,10 @@
+1. El cliente pagó una vez y le cobraron dos.
+2. El pago tardó y el usuario volvió a tocar el botón.
+3. Tu servidor recibió dos solicitudes idénticas.
+4. Y procesó las dos.
+5. La solución: una clave de idempotencia.
+6. El cliente envía la misma clave en cada reintento.
+7. El servidor guarda la clave junto con el resultado.
+8. Si la clave ya existe, devuelve ese resultado y no cobra de nuevo.
+9. Mi lección: en un sistema distribuido los reintentos son normales, diseña para ellos.   [CIERRE]
+10. Comenta SISTEMA y te envío mi guía.   [CIERRE]
