@@ -1,0 +1,9 @@
+1. Un solo cambio retiró 1.100 prefijos de red.
+2. Fue en Cloudflare, el 20 de febrero de 2026.
+3. Un cambio en su pipeline de BYOIP.
+4. Para los clientes afectados, fueron cerca de seis horas.
+5. ¿A cuántos puede llegar tu próximo cambio?
+6. Primero a un grupo pequeño. Miras. Y luego a más.
+7. Cloudflare lo llamó Fail Small y dijo que completó el plan en mayo de 2026.
+8. Mi lección: todo cambio masivo necesita un freno antes de llegar a todos.   [CIERRE]
+9. Comenta SISTEMA y te envío mi guía.   [CIERRE]

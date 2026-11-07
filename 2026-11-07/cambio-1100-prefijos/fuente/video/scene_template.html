@@ -1,0 +1,96 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'Space Grotesk';font-weight:500;src:url('../fonts/space-grotesk-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('../fonts/dm-sans-latin-400-normal.woff2') format('woff2')}
+html,body{margin:0;background:#0B0B0B;width:1080px;height:1920px;overflow:hidden}
+svg{display:block}
+text{font-family:'Space Grotesk';font-weight:700;fill:#F5F5F5}
+.m{font-weight:500}
+</style></head><body><svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+const SCENES = /*SCENES*/;
+const W='#F5F5F5', K='#0B0B0B', G='#8A8A8A', CX=480, CY=875;
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const eo=x=>1-Math.pow(1-cl(x),3), ei=x=>Math.pow(cl(x),3), eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const T=(x,y,s,str,o={})=>`<text x="${x}" y="${y}" font-size="${s}" text-anchor="${o.a||'middle'}" ${o.m?'class="m"':''} fill="${o.f||W}" style="fill:${o.f||W};opacity:${o.op??1}" ${o.ls?`letter-spacing="${o.ls}"`:''}>${str}</text>`;
+const R=(x,y,w,h,o={})=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${o.fill||'none'}" stroke="${o.stroke===undefined?W:o.stroke}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const L=(x1,y1,x2,y2,o={})=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${o.c||W}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const GX=135, GY=650, CW=90, GP=30;
+function grid(fn){ let s=''; for(let r=0;r<4;r++)for(let c=0;c<6;c++){ s+=fn(r,c,GX+c*(CW+GP),GY+r*(CW+GP),r*6+c);} return s; }
+const cross=(x,y,col)=>L(x+22,y+22,x+CW-22,y+CW-22,{c:col,sw:5})+L(x+CW-22,y+22,x+22,y+CW-22,{c:col,sw:5});
+
+const DRAW=[
+ // 0 gancho: 1.100 prefijos retirados
+ (t,d)=>{ let s=T(CX,430,84,'UN CAMBIO',{op:eo(seg(t,0,.45))})+T(CX,525,84,'1.100 PREFIJOS',{op:eo(seg(t,.2,.65))});
+  s+=grid((r,c,x,y,i)=>{ const a=eo(seg(t,.5+i*.02,.8+i*.02)); const gone=eo(seg(t,1.7+i*.03,1.95+i*.03));
+    return R(x,y,CW,CW,{fill:W,op:a*(1-gone)})+R(x,y,CW,CW,{op:a*gone,d:'6 6',stroke:G}); });
+  s+=T(CX,1010,32,'prefijos BGP retirados',{m:1,f:G,op:eo(seg(t,2.4,2.9))});
+  return s;},
+ // 1 cuándo y dónde
+ (t,d)=>{ let s=T(CX,520,92,'CLOUDFLARE',{op:eo(seg(t,0,.5))});
+  s+=L(130,600,130+700*eo(seg(t,.3,1.0)),600,{sw:2});
+  s+=T(CX,750,110,'20 FEB 2026',{op:eo(seg(t,.7,1.3))});
+  s+=T(CX,860,34,'post-mortem publicado por la propia empresa',{m:1,f:G,op:eo(seg(t,1.8,2.4))});
+  return s;},
+ // 2 cambio en el pipeline BYOIP
+ (t,d)=>{ let s=T(CX,430,76,'UN CAMBIO EN EL',{op:eo(seg(t,0,.5))})+T(CX,520,76,'PIPELINE BYOIP',{op:eo(seg(t,.2,.7))});
+  const a=eo(seg(t,.7,1.2)), b=eo(seg(t,1.3,1.8)), c=eo(seg(t,1.9,2.4));
+  s+=R(110,760,220,120,{fill:W,op:a})+T(220,832,34,'CAMBIO',{f:K,op:a});
+  s+=L(330,820,400,820,{op:b,sw:3})+R(400,760,220,120,{op:b})+T(510,832,32,'PIPELINE',{op:b});
+  s+=L(620,820,690,820,{op:c,sw:3})+R(690,760,170,120,{op:c,d:'6 6',stroke:G})+T(775,832,30,'RETIRADOS',{f:G,op:c});
+  return s;},
+ // 3 seis horas
+ (t,d)=>{ let s=T(CX,430,76,'PARA LOS AFECTADOS',{op:eo(seg(t,0,.5))})+T(CX,520,76,'CERCA DE 6 HORAS',{op:eo(seg(t,.2,.7))});
+  for(let i=0;i<6;i++){ const a=eo(seg(t,.8+i*.28,1.05+i*.28)); s+=R(130+i*120,760,100,140,{fill:W,op:a})+T(180+i*120,845,40,String(i+1),{f:K,op:a}); }
+  s+=T(CX,1010,32,'horas sin servicio para esos clientes',{m:1,f:G,op:eo(seg(t,2.5,3.0))});
+  return s;},
+ // 4 pregunta
+ (t,d)=>{ let s=T(CX,430,76,'¿A CUÁNTOS PUEDE',{op:eo(seg(t,0,.5))})+T(CX,520,76,'LLEGAR TU PRÓXIMO',{op:eo(seg(t,.2,.7))})+T(CX,610,76,'CAMBIO?',{op:eo(seg(t,.4,.9))});
+  const a=eo(seg(t,1.0,1.6)); s+=R(310,760,360,200,{fill:W,op:a})+T(CX,895,120,'?',{f:K,op:a});
+  return s;},
+ // 5 despliegue progresivo
+ (t,d)=>{ let s=T(CX,430,76,'DESPLIEGUE',{op:eo(seg(t,0,.5))})+T(CX,520,76,'PROGRESIVO',{op:eo(seg(t,.2,.7))});
+  const st=[['GRUPO PEQUEÑO',180,.8],['MÁS',440,1.7],['TODOS',700,2.5]];
+  st.forEach((r,i)=>{ const a=eo(seg(t,r[2],r[2]+.4)); const y=740+i*130;
+    s+=R(130,y,700,100,{op:a})+R(130,y,r[1]*eo(seg(t,r[2],r[2]+.5)),100,{fill:G,op:a*.55,stroke:null})+T(160,y+66,36,r[0],{a:'start',f:W,op:a}); });
+  s+=T(CX,1170,32,'miras antes de seguir',{m:1,f:G,op:eo(seg(t,2.9,3.4))});
+  return s;},
+ // 6 Fail Small
+ (t,d)=>{ let s=T(CX,520,64,'CODE ORANGE',{op:eo(seg(t,0,.5))})+T(CX,640,110,'FAIL SMALL',{op:eo(seg(t,.3,.9))});
+  const a=eo(seg(t,1.4,2.0)); s+=R(130,780,700,120,{op:a})+T(CX,858,40,'plan completado: mayo 2026',{m:1,op:a});
+  s+=T(CX,990,32,'según Cloudflare',{m:1,f:G,op:eo(seg(t,2.4,2.9))});
+  return s;},
+ // 7 cierre: lección
+ (t,d)=>{ let s=T(CX,430,84,'UN FRENO',{op:eo(seg(t,0,.4))})+T(CX,535,84,'ANTES DE LLEGAR',{op:eo(seg(t,.2,.6))})+T(CX,640,84,'A TODOS',{op:eo(seg(t,.4,.8))});
+  const a=eo(seg(t,1.0,1.6));
+  s+=R(130,830,700,120,{op:a})+T(CX,908,40,'todo cambio masivo',{m:1,op:a});
+  s+=L(130,1020,130+700*eo(seg(t,1.6,2.4)),1020,{sw:2});
+  s+=T(CX,1100,34,'limita el daño antes de que ocurra',{m:1,f:G,op:eo(seg(t,2.4,3.0))});
+  return s;},
+ // 8 cierre: CTA
+ (t,d)=>{ let s=T(CX,640,84,'COMENTA',{op:eo(seg(t,0,.4))});
+  const a=eo(seg(t,.3,.8)); s+=R(120,720,720,190,{fill:W,op:a})+T(CX,855,118,'SISTEMA',{f:K,op:a});
+  s+=T(CX,1010,40,'y te envío mi guía',{m:1,op:eo(seg(t,.9,1.3))});
+  s+=T(CX,1100,34,'sígueme y comparte con tu equipo',{m:1,f:G,op:eo(seg(t,1.4,1.9))});
+  return s;}
+];
+
+const STAR='<path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z" fill="#F5F5F5"/>';
+function render(tg){
+  let acc=0, i=0; for(;i<SCENES.length;i++){ if(tg<acc+SCENES[i].dur) break; acc+=SCENES[i].dur; }
+  if(i>=SCENES.length){ i=SCENES.length-1; acc-=SCENES[i].dur; }
+  const tl=tg-acc, d=SCENES[i].dur, kk=(SCENES[i].base||d)/d, t=tl*kk;
+  const sc=Math.min(eo(seg(tl,0,.28)), 1-ei(seg(tl,d-.22,d)));
+  let body=DRAW[i](t,d);
+  let s=`<rect width="1080" height="1920" fill="${K}"/>`;
+  s+=`<g transform="translate(${CX} ${CY}) scale(${Math.max(sc,0.0001)}) translate(${-CX} ${-CY})">${body}</g>`;
+  if(sc<.2) s+=`<circle cx="${CX}" cy="${CY}" r="${10*(1-sc/.2)+2}" fill="${W}"/>`;
+  // marco fijo, etiqueta y marca de agua (zonas seguras)
+  s+=T(70,310,26,'[POST-MORTEM]  CLOUDFLARE',{a:'start',m:1,f:G,ls:2});
+  s+=T(890,310,26,String(i+1).padStart(2,'0')+' / '+String(SCENES.length).padStart(2,'0'),{a:'end',m:1,f:G});
+  s+=L(70,330,890,330,{c:G,sw:1});
+  s+=`<g transform="translate(70 1425)"><g transform="scale(1.1)">${STAR}</g></g>`+T(112,1448,26,'JSRamirez · @jsramirezdev',{a:'start',m:1});
+  document.getElementById('s').innerHTML=s;
+}
+</script></body></html>

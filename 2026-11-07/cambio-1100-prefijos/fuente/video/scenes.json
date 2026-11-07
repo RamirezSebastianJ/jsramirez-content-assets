@@ -1,0 +1,126 @@
+[
+ {
+  "dur": 3.4,
+  "voz": "Un solo cambio retiró 1.100 prefijos de red.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.9,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.2,
+  "voz": "Fue en Cloudflare, el 20 de febrero de 2026.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Un cambio en su pipeline de BYOIP.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.8,
+    "blip"
+   ],
+   [
+    2.4,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Para los clientes afectados, fueron cerca de seis horas.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    2.6,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "¿A cuántos puede llegar tu próximo cambio?",
+  "sfx": [
+   [
+    1.4,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.8,
+  "voz": "Primero a un grupo pequeño. Miras. Y luego a más.",
+  "sfx": [
+   [
+    0.9,
+    "blip"
+   ],
+   [
+    1.7,
+    "blip"
+   ],
+   [
+    2.5,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Cloudflare lo llamó Fail Small y dijo que completó el plan en mayo de 2026.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    2.4,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.8,
+  "voz": "Mi lección: todo cambio masivo necesita un freno antes de llegar a todos.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    2.8,
+    "thud"
+   ]
+  ],
+  "cierre": true
+ },
+ {
+  "dur": 3.0,
+  "voz": "Comenta SISTEMA y te envío mi guía.",
+  "sfx": [
+   [
+    0.3,
+    "blip"
+   ]
+  ],
+  "cierre": true
+ }
+]
