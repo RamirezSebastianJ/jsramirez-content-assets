@@ -1,0 +1,128 @@
+[
+ {
+  "dur": 3.8,
+  "voz": "Tu cola crecía y nadie se dio cuenta.",
+  "sfx": [
+   [
+    2.2,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "El productor enviaba más rápido de lo que el consumidor podía procesar.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Una cola sin límite solo esconde el problema.",
+  "sfx": [
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Hasta que la memoria se llena y el sistema cae de golpe.",
+  "sfx": [
+   [
+    2.2,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.2,
+  "voz": "La solución: backpressure.",
+  "sfx": [
+   [
+    0.8,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "El consumidor avisa cuando ya no da más.",
+  "sfx": [
+   [
+    1.4,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Y el productor frena, espera o descarta.",
+  "sfx": [
+   [
+    0.9,
+    "blip"
+   ],
+   [
+    1.6,
+    "blip"
+   ],
+   [
+    2.3,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Es mejor rechazar una petición a tiempo que perderlas todas después.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    2.0,
+    "blip"
+   ],
+   [
+    2.6,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Mi lección: diseña qué pasa cuando el sistema se satura, antes de que se sature.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    2.8,
+    "thud"
+   ]
+  ],
+  "cierre": true
+ },
+ {
+  "dur": 3.0,
+  "voz": "Comenta SISTEMA y te envío mi guía.",
+  "sfx": [
+   [
+    0.3,
+    "blip"
+   ]
+  ],
+  "cierre": true
+ }
+]

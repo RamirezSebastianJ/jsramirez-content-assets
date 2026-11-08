@@ -1,0 +1,10 @@
+1. Tu cola crecía y nadie se dio cuenta.
+2. El productor enviaba más rápido de lo que el consumidor podía procesar.
+3. Una cola sin límite solo esconde el problema.
+4. Hasta que la memoria se llena y el sistema cae de golpe.
+5. La solución: backpressure.
+6. El consumidor avisa cuando ya no da más.
+7. Y el productor frena, espera o descarta.
+8. Es mejor rechazar una petición a tiempo que perderlas todas después.
+9. Mi lección: diseña qué pasa cuando el sistema se satura, antes de que se sature.   [CIERRE]
+10. Comenta SISTEMA y te envío mi guía.   [CIERRE]

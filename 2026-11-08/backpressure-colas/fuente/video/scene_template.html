@@ -1,0 +1,109 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'Space Grotesk';font-weight:500;src:url('../fonts/space-grotesk-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('../fonts/dm-sans-latin-400-normal.woff2') format('woff2')}
+html,body{margin:0;background:#0B0B0B;width:1080px;height:1920px;overflow:hidden}
+svg{display:block}
+text{font-family:'Space Grotesk';font-weight:700;fill:#F5F5F5}
+.m{font-weight:500}
+</style></head><body><svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+const SCENES = /*SCENES*/;
+const W='#F5F5F5', K='#0B0B0B', G='#8A8A8A', CX=480, CY=875;
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const eo=x=>1-Math.pow(1-cl(x),3), ei=x=>Math.pow(cl(x),3), eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const T=(x,y,s,str,o={})=>`<text x="${x}" y="${y}" font-size="${s}" text-anchor="${o.a||'middle'}" ${o.m?'class="m"':''} fill="${o.f||W}" style="fill:${o.f||W};opacity:${o.op??1}" ${o.ls?`letter-spacing="${o.ls}"`:''}>${str}</text>`;
+const R=(x,y,w,h,o={})=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${o.fill||'none'}" stroke="${o.stroke===undefined?W:o.stroke}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const L=(x1,y1,x2,y2,o={})=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${o.c||W}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const GX=135, GY=650, CW=90, GP=30;
+function grid(fn){ let s=''; for(let r=0;r<4;r++)for(let c=0;c<6;c++){ s+=fn(r,c,GX+c*(CW+GP),GY+r*(CW+GP),r*6+c);} return s; }
+const cross=(x,y,col)=>L(x+22,y+22,x+CW-22,y+CW-22,{c:col,sw:5})+L(x+CW-22,y+22,x+22,y+CW-22,{c:col,sw:5});
+
+const DRAW=[
+ // 0 gancho: la cola crece
+ (t,d)=>{ let s=T(CX,430,80,'LA COLA CRECE',{op:eo(seg(t,0,.5))})+T(CX,525,80,'Y NADIE LO NOTA',{op:eo(seg(t,.2,.7))});
+  const hs=[60,110,170,230,300,370];
+  hs.forEach((h,i)=>{ const p=eo(seg(t,.6+i*.3,1.0+i*.3)); s+=R(160+i*110,1050-h*p,80,h*p,{fill:W}); });
+  s+=L(130,1050,830,1050,{c:G,sw:2});
+  return s;},
+ // 1 productor mas rapido que consumidor
+ (t,d)=>{ let s=T(CX,430,70,'EL PRODUCTOR ES MÁS',{op:eo(seg(t,0,.5))})+T(CX,520,70,'RÁPIDO QUE EL CONSUMIDOR',{op:eo(seg(t,.2,.7))});
+  s+=R(110,760,220,150,{op:eo(seg(t,.6,1.0))})+T(220,845,28,'PRODUCTOR',{op:eo(seg(t,.6,1.0))});
+  s+=R(630,760,220,150,{op:eo(seg(t,.6,1.0))})+T(740,845,28,'CONSUMIDOR',{op:eo(seg(t,.6,1.0))});
+  s+=L(330,820,330+300*eo(seg(t,1.0,1.8)),820,{sw:10})+L(330,860,330+300*eo(seg(t,1.4,3.0)),860,{sw:2});
+  s+=T(CX,1010,32,'llega rápido, se procesa lento',{m:1,f:G,op:eo(seg(t,2.2,2.8))});
+  return s;},
+ // 2 cola sin limite
+ (t,d)=>{ let s=T(CX,430,76,'UNA COLA SIN LÍMITE',{op:eo(seg(t,0,.5))})+T(CX,520,76,'ESCONDE EL PROBLEMA',{op:eo(seg(t,.2,.7))});
+  s+=L(130,780,830,780,{op:eo(seg(t,.5,.9))})+L(130,900,830,900,{op:eo(seg(t,.5,.9))})+L(130,780,130,900,{op:eo(seg(t,.5,.9))});
+  for(let i=0;i<7;i++){ const p=eo(seg(t,.9+i*.2,1.2+i*.2)); s+=R(150+i*95,800,75,80,{fill:W,op:p}); }
+  s+=T(CX,1010,64,'∞',{op:eo(seg(t,2.0,2.5))});
+  return s;},
+ // 3 memoria se llena
+ (t,d)=>{ let s=T(CX,430,76,'LA MEMORIA SE LLENA',{op:eo(seg(t,0,.5))})+T(CX,520,76,'Y CAE DE GOLPE',{op:eo(seg(t,.2,.7))});
+  const p=eo(seg(t,.6,2.0));
+  s+=R(130,780,700,110,{})+R(130,780,700*p,110,{fill:W});
+  s+=T(CX,960,32,'memoria',{m:1,f:G,op:eo(seg(t,.6,1.0))});
+  const x=eo(seg(t,2.1,2.5));
+  s+=L(430,1010,430+100*x,1110,{sw:8})+L(530,1010,530-100*x,1110,{sw:8});
+  return s;},
+ // 4 la solucion
+ (t,d)=>{ let s=T(CX,500,76,'LA SOLUCIÓN',{op:eo(seg(t,0,.5))});
+  const a=eo(seg(t,.5,1.2)); s+=R(110,600,740,160,{fill:W,op:a})+T(CX,712,76,'BACKPRESSURE',{f:K,op:a});
+  s+=T(CX,860,34,'contrapresión',{m:1,f:G,op:eo(seg(t,1.5,2.1))});
+  return s;},
+ // 5 consumidor avisa
+ (t,d)=>{ let s=T(CX,430,76,'EL CONSUMIDOR',{op:eo(seg(t,0,.5))})+T(CX,520,76,'AVISA SU LÍMITE',{op:eo(seg(t,.2,.7))});
+  s+=R(110,760,220,150,{op:eo(seg(t,.5,.9))})+T(220,845,28,'PRODUCTOR',{op:eo(seg(t,.5,.9))});
+  s+=R(630,760,220,150,{op:eo(seg(t,.5,.9))})+T(740,845,28,'CONSUMIDOR',{op:eo(seg(t,.5,.9))});
+  s+=L(630,835,630-300*eo(seg(t,1.0,1.8)),835,{sw:5});
+  s+=T(CX,1010,36,'«voy lleno, espera»',{m:1,op:eo(seg(t,1.9,2.5))});
+  return s;},
+ // 6 productor frena espera descarta
+ (t,d)=>{ let s=T(CX,430,70,'EL PRODUCTOR FRENA,',{op:eo(seg(t,0,.5))})+T(CX,520,70,'ESPERA O DESCARTA',{op:eo(seg(t,.2,.7))});
+  [['frena',.7],['espera',1.4],['descarta',2.1]].forEach((r,i)=>{ const y=740+i*130,a=eo(seg(t,r[1],r[1]+.4));
+   s+=R(130,y,700,100,{fill:i==2?W:'none',op:a})+T(170,y+66,40,r[0],{a:'start',f:i==2?K:W,op:a}); });
+  return s;},
+ // 7 rechazar a tiempo
+ (t,d)=>{ let s=T(CX,430,70,'RECHAZAR A TIEMPO',{op:eo(seg(t,0,.5))})+T(CX,520,70,'VALE MÁS QUE PERDER TODO',{op:eo(seg(t,.2,.7))});
+  s+=R(130,760,420,110,{op:eo(seg(t,.5,.9))});
+  for(let i=0;i<4;i++){ s+=R(145+i*100,775,80,80,{fill:W,op:eo(seg(t,.8+i*.15,1.1+i*.15))}); }
+  s+=T(340,920,28,'límite de la cola',{m:1,f:G,op:eo(seg(t,1.4,1.8))});
+  const x=eo(seg(t,1.8,2.4));
+  s+=R(650+60*x,775,80,80,{stroke:W,d:'8 6',op:eo(seg(t,1.8,2.0))});
+  s+=T(CX,1010,36,'429 · intenta más tarde',{m:1,op:eo(seg(t,2.5,3.0))});
+  return s;},
+ // 8 cierre: leccion
+ (t,d)=>{ let s=T(CX,430,84,'DISEÑA LA',{op:eo(seg(t,0,.4))})+T(CX,540,84,'SATURACIÓN',{op:eo(seg(t,.2,.6))});
+  const a=eo(seg(t,.9,1.6));
+  s+=R(130,800,700,120,{op:a})+T(CX,880,40,'antes de que llegue',{m:1,op:a});
+  s+=L(130,990,130+700*eo(seg(t,1.4,2.2)),990,{sw:2});
+  s+=T(CX,1070,34,'qué pasa cuando el sistema se llena',{m:1,f:G,op:eo(seg(t,2,2.6))});
+  return s;},
+ // 9 cierre: CTA
+ (t,d)=>{ let s=T(CX,640,84,'COMENTA',{op:eo(seg(t,0,.4))});
+  const a=eo(seg(t,.3,.8)); s+=R(120,720,720,190,{fill:W,op:a})+T(CX,855,118,'SISTEMA',{f:K,op:a});
+  s+=T(CX,1010,40,'y te envío mi guía',{m:1,op:eo(seg(t,.9,1.3))});
+  s+=T(CX,1100,34,'sígueme y comparte con tu equipo',{m:1,f:G,op:eo(seg(t,1.4,1.9))});
+  return s;}
+];
+
+const STAR='<path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z" fill="#F5F5F5"/>';
+function render(tg){
+  let acc=0, i=0; for(;i<SCENES.length;i++){ if(tg<acc+SCENES[i].dur) break; acc+=SCENES[i].dur; }
+  if(i>=SCENES.length){ i=SCENES.length-1; acc-=SCENES[i].dur; }
+  const tl=tg-acc, d=SCENES[i].dur, kk=(SCENES[i].base||d)/d, t=tl*kk;
+  const sc=Math.min(eo(seg(tl,0,.28)), 1-ei(seg(tl,d-.22,d)));
+  let body=DRAW[i](t,d);
+  let s=`<rect width="1080" height="1920" fill="${K}"/>`;
+  s+=`<g transform="translate(${CX} ${CY}) scale(${Math.max(sc,0.0001)}) translate(${-CX} ${-CY})">${body}</g>`;
+  if(sc<.2) s+=`<circle cx="${CX}" cy="${CY}" r="${10*(1-sc/.2)+2}" fill="${W}"/>`;
+  // marco fijo, etiqueta y marca de agua (zonas seguras)
+  s+=T(70,310,26,'[ARCHITECTURE]  BACKPRESSURE',{a:'start',m:1,f:G,ls:2});
+  s+=T(890,310,26,String(i+1).padStart(2,'0')+' / '+String(SCENES.length).padStart(2,'0'),{a:'end',m:1,f:G});
+  s+=L(70,330,890,330,{c:G,sw:1});
+  s+=`<g transform="translate(70 1425)"><g transform="scale(1.1)">${STAR}</g></g>`+T(112,1448,26,'JSRamirez · @jsramirezdev',{a:'start',m:1});
+  document.getElementById('s').innerHTML=s;
+}
+</script></body></html>
