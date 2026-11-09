@@ -1,0 +1,128 @@
+[
+ {
+  "dur": 4.0,
+  "voz": "Tu caché expiró y llegaron todos los usuarios a la vez.",
+  "sfx": [
+   [
+    1.2,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Todos encontraron el dato vencido.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.8,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Y todos fueron a la base de datos al mismo tiempo.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "La base de datos no aguantó.",
+  "sfx": [
+   [
+    2.2,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "A esto se le llama cache stampede.",
+  "sfx": [
+   [
+    0.8,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Primera defensa: que solo uno recalcule y los demás esperen.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Segunda defensa: tiempos de expiración con un poco de azar.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.5,
+    "blip"
+   ],
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Tercera: refrescar el dato antes de que venza.",
+  "sfx": [
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Mi lección: no dejes que todas tus claves venzan a la misma hora.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    2.8,
+    "thud"
+   ]
+  ],
+  "cierre": true
+ },
+ {
+  "dur": 3.0,
+  "voz": "Comenta SISTEMA y te envío mi guía.",
+  "sfx": [
+   [
+    0.3,
+    "blip"
+   ]
+  ],
+  "cierre": true
+ }
+]

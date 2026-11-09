@@ -1,0 +1,10 @@
+1. Tu caché expiró y llegaron todos los usuarios a la vez.
+2. Todos encontraron el dato vencido.
+3. Y todos fueron a la base de datos al mismo tiempo.
+4. La base de datos no aguantó.
+5. A esto se le llama cache stampede.
+6. Primera defensa: que solo uno recalcule y los demás esperen.
+7. Segunda defensa: tiempos de expiración con un poco de azar.
+8. Tercera: refrescar el dato antes de que venza.
+9. Mi lección: no dejes que todas tus claves venzan a la misma hora.   [CIERRE]
+10. Comenta SISTEMA y te envío mi guía.   [CIERRE]

@@ -1,0 +1,2 @@
+# Fuentes
+Pieza evergreen conceptual (cache stampede / thundering herd). En esta ejecución no se pudieron leer fuentes originales (WebFetch sin permiso), así que no incluye cifras ni afirmaciones sobre empresas. Las defensas descritas (un solo recálculo con bloqueo, vencimientos con jitter, refresco anticipado) son técnicas generales; para verificar: documentación de Redis sobre caching y "Optimal Probabilistic Cache Stampede Prevention" (Vattani et al.).
