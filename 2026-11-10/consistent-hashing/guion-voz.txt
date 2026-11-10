@@ -1,0 +1,10 @@
+1. Repartes tus claves entre servidores usando el módulo.
+2. Funciona, hasta que agregas un servidor.
+3. De pronto, la mayoría de las claves cambia de servidor.
+4. Tu caché queda vacía y la base de datos recibe todo.
+5. La solución se llama hashing consistente.
+6. Servidores y claves se ubican en un anillo.
+7. Cada clave va al primer servidor que encuentra, en sentido del reloj.
+8. Si agregas un servidor, solo se mueven las claves de su tramo.
+9. Mi lección: diseña pensando en cómo crece tu sistema, no solo en cómo funciona hoy.   [CIERRE]
+10. Comenta SISTEMA y te envío mi guía.   [CIERRE]

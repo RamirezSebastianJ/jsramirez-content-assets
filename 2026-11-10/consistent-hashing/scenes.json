@@ -1,0 +1,132 @@
+[
+ {
+  "dur": 4.0,
+  "voz": "Repartes tus claves entre servidores usando el módulo.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    1.8,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "Funciona, hasta que agregas un servidor.",
+  "sfx": [
+   [
+    1.6,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.2,
+  "voz": "De pronto, la mayoría de las claves cambia de servidor.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    1.8,
+    "blip"
+   ],
+   [
+    2.4,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Tu caché queda vacía y la base de datos recibe todo.",
+  "sfx": [
+   [
+    2.2,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "La solución se llama hashing consistente.",
+  "sfx": [
+   [
+    0.8,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.8,
+  "voz": "Servidores y claves se ubican en un anillo.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.6,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.2,
+  "voz": "Cada clave va al primer servidor que encuentra, en sentido del reloj.",
+  "sfx": [
+   [
+    1.4,
+    "blip"
+   ],
+   [
+    2.4,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.2,
+  "voz": "Si agregas un servidor, solo se mueven las claves de su tramo.",
+  "sfx": [
+   [
+    1.4,
+    "blip"
+   ],
+   [
+    2.6,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.4,
+  "voz": "Mi lección: diseña pensando en cómo crece tu sistema, no solo en cómo funciona hoy.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    3.0,
+    "thud"
+   ]
+  ],
+  "cierre": true
+ },
+ {
+  "dur": 3.0,
+  "voz": "Comenta SISTEMA y te envío mi guía.",
+  "sfx": [
+   [
+    0.3,
+    "blip"
+   ]
+  ],
+  "cierre": true
+ }
+]

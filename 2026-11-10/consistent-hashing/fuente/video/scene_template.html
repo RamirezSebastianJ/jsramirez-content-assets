@@ -1,0 +1,121 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'Space Grotesk';font-weight:500;src:url('../fonts/space-grotesk-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('../fonts/dm-sans-latin-400-normal.woff2') format('woff2')}
+html,body{margin:0;background:#0B0B0B;width:1080px;height:1920px;overflow:hidden}
+svg{display:block}
+text{font-family:'Space Grotesk';font-weight:700;fill:#F5F5F5}
+.m{font-weight:500}
+</style></head><body><svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+const SCENES = /*SCENES*/;
+const W='#F5F5F5', K='#0B0B0B', G='#8A8A8A', CX=480, CY=875;
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const eo=x=>1-Math.pow(1-cl(x),3), ei=x=>Math.pow(cl(x),3), eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const T=(x,y,s,str,o={})=>`<text x="${x}" y="${y}" font-size="${s}" text-anchor="${o.a||'middle'}" ${o.m?'class="m"':''} fill="${o.f||W}" style="fill:${o.f||W};opacity:${o.op??1}" ${o.ls?`letter-spacing="${o.ls}"`:''}>${str}</text>`;
+const R=(x,y,w,h,o={})=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${o.fill||'none'}" stroke="${o.stroke===undefined?W:o.stroke}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const L=(x1,y1,x2,y2,o={})=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${o.c||W}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const GX=135, GY=650, CW=90, GP=30;
+function grid(fn){ let s=''; for(let r=0;r<4;r++)for(let c=0;c<6;c++){ s+=fn(r,c,GX+c*(CW+GP),GY+r*(CW+GP),r*6+c);} return s; }
+const cross=(x,y,col)=>L(x+22,y+22,x+CW-22,y+CW-22,{c:col,sw:5})+L(x+CW-22,y+22,x+22,y+CW-22,{c:col,sw:5});
+
+const SRV=['A','B','C','D'];
+const ring=(cx,cy,r,op=1)=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${G}" stroke-width="3" opacity="${op}"/>`;
+const pt=(cx,cy,r,deg)=>[cx+r*Math.sin(deg*Math.PI/180), cy-r*Math.cos(deg*Math.PI/180)];
+const node=(x,y,lab,o={})=>`<rect x="${x-34}" y="${y-34}" width="68" height="68" fill="${o.fill||'none'}" stroke="${o.stroke||W}" stroke-width="2" opacity="${o.op??1}"/>`+T(x,y+11,30,lab,{f:o.fill?K:(o.f||W),op:o.op??1});
+const dot=(x,y,o={})=>`<circle cx="${x}" cy="${y}" r="${o.r||9}" fill="${o.f||W}" opacity="${o.op??1}"/>`;
+const KEYS=[20,55,100,150,200,235,285,330];   // claves en el anillo (grados)
+const SV=[0,90,180,270];                      // servidores A,B,C,D
+const SV5=[0,90,135,180,270];                 // con un servidor nuevo en 135
+const DRAW=[
+ // 0 modulo
+ (t,d)=>{ let s=T(CX,430,66,'CLAVES ENTRE SERVIDORES',{op:eo(seg(t,0,.5))})+T(CX,520,66,'CON EL MÓDULO',{op:eo(seg(t,.2,.7))});
+  s+=T(CX,700,56,'clave % 4',{m:1,f:G,op:eo(seg(t,.5,.9))});
+  for(let i=0;i<4;i++){ const p=eo(seg(t,.9+i*.15,1.3+i*.15)); s+=node(150+i*220,900,SRV[i],{op:p}); for(let k=0;k<3;k++) s+=dot(150+i*220-24+k*24,990+0,{op:p,r:7}); }
+  return s;},
+ // 1 agregas un servidor
+ (t,d)=>{ let s=T(CX,430,66,'HASTA QUE AGREGAS',{op:eo(seg(t,0,.5))})+T(CX,520,66,'UN SERVIDOR',{op:eo(seg(t,.2,.7))});
+  for(let i=0;i<4;i++) s+=node(150+i*190,900,SRV[i],{});
+  const p=eo(seg(t,1.0,1.6)); s+=node(150+4*190,900,'E',{fill:W,op:p});
+  s+=T(CX,1040,56,'clave % 5',{m:1,f:G,op:eo(seg(t,1.8,2.3))});
+  return s;},
+ // 2 la mayoria cambia de servidor
+ (t,d)=>{ let s=T(CX,430,60,'LA MAYORÍA DE LAS CLAVES',{op:eo(seg(t,0,.5))})+T(CX,520,60,'CAMBIA DE SERVIDOR',{op:eo(seg(t,.2,.7))});
+  for(let i=0;i<5;i++) s+=node(110+i*180,1000,'ABCDE'[i],{});
+  const dest=[1,2,3,4,0,2,3,4,1,0];
+  for(let i=0;i<10;i++){ const p=eo(seg(t,.8+i*.18,1.5+i*.18)); const x1=110+(i%4)*180, x2=110+dest[i]*180;
+    s+=L(x1,880,x1+(x2-x1)*p,880+(1000-34-880)*p,{sw:3,op:.9*cl(p*3)}); s+=dot(x1,860,{r:8}); }
+  return s;},
+ // 3 la cache queda vacia
+ (t,d)=>{ let s=T(CX,430,64,'LA CACHÉ QUEDA VACÍA',{op:eo(seg(t,0,.5))})+T(CX,520,64,'Y LA BASE RECIBE TODO',{op:eo(seg(t,.2,.7))});
+  s+=R(130,700,700,130,{stroke:G,d:'8 6',op:eo(seg(t,.5,.9))})+T(CX,780,34,'CACHÉ (vacía)',{m:1,f:G,op:eo(seg(t,.5,.9))});
+  s+=R(330,980,300,130,{op:eo(seg(t,.9,1.3))})+T(480,1060,30,'BASE DE DATOS',{op:eo(seg(t,.9,1.3))});
+  for(let i=0;i<7;i++){ const p=eo(seg(t,1.2+i*.12,1.8+i*.12)); s+=L(150+i*110,840,480,980,{sw:3,op:.9*p}); }
+  return s;},
+ // 4 nombre
+ (t,d)=>{ let s=T(CX,500,60,'LA SOLUCIÓN SE LLAMA',{op:eo(seg(t,0,.5))});
+  const a=eo(seg(t,.5,1.2)); s+=R(60,600,840,160,{fill:W,op:a})+T(CX,712,64,'HASHING CONSISTENTE',{f:K,op:a});
+  s+=T(CX,860,34,'consistent hashing',{m:1,f:G,op:eo(seg(t,1.5,2.1))});
+  return s;},
+ // 5 anillo
+ (t,d)=>{ let s=T(CX,430,66,'SERVIDORES Y CLAVES',{op:eo(seg(t,0,.5))})+T(CX,520,66,'EN UN ANILLO',{op:eo(seg(t,.2,.7))});
+  const cx=CX,cy=960,r=250; s+=ring(cx,cy,r,eo(seg(t,.4,1.0)));
+  SV.forEach((g,i)=>{ const [x,y]=pt(cx,cy,r,g); s+=node(x,y,SRV[i],{fill:K,op:eo(seg(t,1.0+i*.2,1.4+i*.2))}); });
+  KEYS.forEach((g,i)=>{ const [x,y]=pt(cx,cy,r,g); s+=dot(x,y,{op:eo(seg(t,1.8+i*.1,2.2+i*.1))}); });
+  return s;},
+ // 6 primer servidor en sentido del reloj
+ (t,d)=>{ let s=T(CX,430,60,'CADA CLAVE VA AL PRIMER',{op:eo(seg(t,0,.5))})+T(CX,520,60,'SERVIDOR HORARIO',{op:eo(seg(t,.2,.7))});
+  const cx=CX,cy=960,r=250; s+=ring(cx,cy,r);
+  SV.forEach((g,i)=>{ const [x,y]=pt(cx,cy,r,g); s+=node(x,y,SRV[i],{fill:K}); });
+  KEYS.forEach((g)=>{ const [x,y]=pt(cx,cy,r,g); s+=dot(x,y); });
+  const kg=55, tg=90; const p=eo(seg(t,.9,2.2)); const g=kg+(tg-kg)*p; const [kx,ky]=pt(cx,cy,r,kg), [hx,hy]=pt(cx,cy,r,g);
+  s+=`<circle cx="${kx}" cy="${ky}" r="16" fill="none" stroke="${W}" stroke-width="3"/>`;
+  s+=`<path d="M ${kx} ${ky} A ${r} ${r} 0 0 1 ${hx} ${hy}" fill="none" stroke="${W}" stroke-width="7"/>`;
+  s+=T(CX,1290,32,'la clave llega a B',{m:1,f:G,op:eo(seg(t,2.4,3.0))});
+  return s;},
+ // 7 agregar servidor
+ (t,d)=>{ let s=T(CX,430,60,'SI AGREGAS UN SERVIDOR',{op:eo(seg(t,0,.5))})+T(CX,520,60,'SOLO SE MUEVE SU TRAMO',{op:eo(seg(t,.2,.7))});
+  const cx=CX,cy=960,r=250; s+=ring(cx,cy,r);
+  const moved=(g)=>g>90&&g<=135; const a=eo(seg(t,1.8,2.6));
+  SV.forEach((g,i)=>{ const [x,y]=pt(cx,cy,r,g); s+=node(x,y,SRV[i],{fill:K}); });
+  KEYS.forEach((g)=>{ const [x,y]=pt(cx,cy,r,g); s+=dot(x,y,{f:(moved(g)&&a>.5)?G:W}); });
+  const [nx,ny]=pt(cx,cy,r,135); const p=eo(seg(t,.9,1.5)); s+=node(nx,ny,'E',{fill:W,op:p});
+  const [ax,ay]=pt(cx,cy,r,90), [bx,by]=pt(cx,cy,r,135);
+  s+=`<path d="M ${ax} ${ay} A ${r} ${r} 0 0 1 ${nx} ${ny}" fill="none" stroke="${W}" stroke-width="7" opacity="${eo(seg(t,1.5,2.0))}"/>`;
+  s+=T(CX,1290,32,'el resto de las claves no se mueve',{m:1,f:G,op:eo(seg(t,2.8,3.4))});
+  return s;},
+ // 8 cierre: leccion
+ (t,d)=>{ let s=T(CX,430,70,'DISEÑA PARA',{op:eo(seg(t,0,.4))})+T(CX,540,70,'CUANDO CREZCA',{op:eo(seg(t,.2,.6))});
+  const a=eo(seg(t,.9,1.6));
+  s+=R(130,800,700,120,{op:a})+T(CX,880,36,'no solo para hoy',{m:1,op:a});
+  s+=L(130,990,130+700*eo(seg(t,1.4,2.4)),990,{sw:2});
+  s+=T(CX,1070,34,'cambiar el tamaño no debe romper nada',{m:1,f:G,op:eo(seg(t,2.4,3.0))});
+  return s;},
+ // 9 cierre: CTA
+ (t,d)=>{ let s=T(CX,640,84,'COMENTA',{op:eo(seg(t,0,.4))});
+  const a=eo(seg(t,.3,.8)); s+=R(120,720,720,190,{fill:W,op:a})+T(CX,855,118,'SISTEMA',{f:K,op:a});
+  s+=T(CX,1010,40,'y te envío mi guía',{m:1,op:eo(seg(t,.9,1.3))});
+  s+=T(CX,1100,34,'sígueme y comparte con tu equipo',{m:1,f:G,op:eo(seg(t,1.4,1.9))});
+  return s;}
+];
+
+
+const STAR='<path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z" fill="#F5F5F5"/>';
+function render(tg){
+  let acc=0, i=0; for(;i<SCENES.length;i++){ if(tg<acc+SCENES[i].dur) break; acc+=SCENES[i].dur; }
+  if(i>=SCENES.length){ i=SCENES.length-1; acc-=SCENES[i].dur; }
+  const tl=tg-acc, d=SCENES[i].dur, kk=(SCENES[i].base||d)/d, t=tl*kk;
+  const sc=Math.min(eo(seg(tl,0,.28)), 1-ei(seg(tl,d-.22,d)));
+  let body=DRAW[i](t,d);
+  let s=`<rect width="1080" height="1920" fill="${K}"/>`;
+  s+=`<g transform="translate(${CX} ${CY}) scale(${Math.max(sc,0.0001)}) translate(${-CX} ${-CY})">${body}</g>`;
+  if(sc<.2) s+=`<circle cx="${CX}" cy="${CY}" r="${10*(1-sc/.2)+2}" fill="${W}"/>`;
+  // marco fijo, etiqueta y marca de agua (zonas seguras)
+  s+=T(70,310,26,'[ARCHITECTURE]  HASHING',{a:'start',m:1,f:G,ls:2});
+  s+=T(890,310,26,String(i+1).padStart(2,'0')+' / '+String(SCENES.length).padStart(2,'0'),{a:'end',m:1,f:G});
+  s+=L(70,330,890,330,{c:G,sw:1});
+  s+=`<g transform="translate(70 1425)"><g transform="scale(1.1)">${STAR}</g></g>`+T(112,1448,26,'JSRamirez · @jsramirezdev',{a:'start',m:1});
+  document.getElementById('s').innerHTML=s;
+}
+</script></body></html>
