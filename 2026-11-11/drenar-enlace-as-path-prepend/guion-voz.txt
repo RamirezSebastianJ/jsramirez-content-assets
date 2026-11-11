@@ -1,0 +1,11 @@
+1. ¿Cómo apagas un enlace de red sin que nadie lo note?
+2. DeepL tenía ese reto con un enlace de AWS Direct Connect.
+3. Había que darle mantenimiento sin perder paquetes.
+4. Y sin desviar el tráfico a otra región.
+5. La solución usa AWS Cloud WAN y una técnica llamada AS_PATH prepend.
+6. Prepend significa alargar a propósito la ruta que anuncias.
+7. En BGP, una ruta más larga es menos preferida.
+8. Así el tráfico se va solo por el otro enlace.
+9. Primero drenas el enlace, después lo apagas.
+10. Mi lección: un mantenimiento sin caídas se diseña, no se improvisa.   [CIERRE]
+11. Comenta SISTEMA y te envío mi guía.   [CIERRE]

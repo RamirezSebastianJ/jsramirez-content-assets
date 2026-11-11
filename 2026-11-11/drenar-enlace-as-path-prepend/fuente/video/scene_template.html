@@ -1,0 +1,88 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'Space Grotesk';font-weight:500;src:url('../fonts/space-grotesk-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('../fonts/dm-sans-latin-400-normal.woff2') format('woff2')}
+html,body{margin:0;background:#0B0B0B;width:1080px;height:1920px;overflow:hidden}
+svg{display:block}
+text{font-family:'Space Grotesk';font-weight:700;fill:#F5F5F5}
+.m{font-weight:500}
+</style></head><body><svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+const SCENES = /*SCENES*/;
+const W='#F5F5F5', K='#0B0B0B', G='#8A8A8A', CX=480, CY=875;
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const eo=x=>1-Math.pow(1-cl(x),3), ei=x=>Math.pow(cl(x),3), eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const T=(x,y,s,str,o={})=>`<text x="${x}" y="${y}" font-size="${s}" text-anchor="${o.a||'middle'}" ${o.m?'class="m"':''} fill="${o.f||W}" style="fill:${o.f||W};opacity:${o.op??1}" ${o.ls?`letter-spacing="${o.ls}"`:''}>${str}</text>`;
+const R=(x,y,w,h,o={})=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${o.fill||'none'}" stroke="${o.stroke===undefined?W:o.stroke}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const L=(x1,y1,x2,y2,o={})=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${o.c||W}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const GX=135, GY=650, CW=90, GP=30;
+function grid(fn){ let s=''; for(let r=0;r<4;r++)for(let c=0;c<6;c++){ s+=fn(r,c,GX+c*(CW+GP),GY+r*(CW+GP),r*6+c);} return s; }
+const cross=(x,y,col)=>L(x+22,y+22,x+CW-22,y+CW-22,{c:col,sw:5})+L(x+CW-22,y+22,x+22,y+CW-22,{c:col,sw:5});
+
+
+const X1=230, X2=730, Y1=800, Y2=1000;
+const boxL=(x,y,w,h,lab,o={})=>R(x,y,w,h,{fill:o.fill||'none',stroke:o.stroke===undefined?W:o.stroke,d:o.d,op:o.op})+T(x+w/2,y+h/2+11,30,lab,{f:o.fill?K:W,op:o.op??1});
+function base(op=1,o={}){ return boxL(70,740,160,320,'RED',{op})+boxL(730,740,160,320,'AWS',{op})
+ + L(X1,Y1,X2,Y1,{c:o.c1||W,sw:3,d:o.d1,op:op*(o.o1??1)}) + L(X1,Y2,X2,Y2,{c:o.c2||W,sw:3,op:op*(o.o2??1)})
+ + T(480,Y1-24,26,'ENLACE 1',{m:1,f:G,op:op*(o.o1??1)}) + T(480,Y2+44,26,'ENLACE 2',{m:1,f:G,op:op}); }
+function pk(t,y,n,speed,op=1){ let s=''; for(let i=0;i<n;i++){ const p=((t*speed+i/n)%1); s+=`<rect x="${X1+8+p*(X2-X1-24)}" y="${y-8}" width="16" height="16" fill="${W}" opacity="${op}"/>`; } return s; }
+const title=(a,b,t,sz=58)=>T(CX,430,sz,a,{op:eo(seg(t,0,.5))})+(b?T(CX,520,sz,b,{op:eo(seg(t,.2,.7))}):'');
+const DRAW=[
+ (t,d)=> title('¿CÓMO APAGAS UN ENLACE','SIN QUE NADIE LO NOTE?',t,56)+base(eo(seg(t,.5,1.1)))+pk(t,Y1,5,.35,eo(seg(t,1,1.5)))+pk(t,Y2,5,.35,eo(seg(t,1,1.5))),
+ (t,d)=> title('DEEPL + DIRECT CONNECT','UN ENLACE EN MANTENIMIENTO',t,54)+base(1)+pk(t,Y1,5,.35)+pk(t,Y2,5,.35)
+   + R(250,740,460,120,{stroke:W,d:'10 8',op:eo(seg(t,1.2,1.8))}) + T(480,1130,34,'MANTENIMIENTO EN EL ENLACE 1',{m:1,f:G,op:eo(seg(t,1.6,2.2))}),
+ (t,d)=> title('SIN PERDER PAQUETES',null,t,64)+base(1)+pk(t,Y1,6,.4)+pk(t,Y2,6,.4)
+   + T(480,1160,34,'cada paquete debe llegar',{m:1,f:G,op:eo(seg(t,1.2,1.8))}),
+ (t,d)=> title('SIN DESVIAR EL TRÁFICO','A OTRA REGIÓN',t,58)+base(1)+pk(t,Y1,5,.35)+pk(t,Y2,5,.35)
+   + boxL(280,1200,400,100,'OTRA REGIÓN',{stroke:G,d:'8 6',op:eo(seg(t,.9,1.5))})
+   + L(480,1010,480,1190,{c:G,sw:3,d:'8 6',op:eo(seg(t,1.2,1.7))})
+   + L(400,1090,560,1130,{sw:6,op:eo(seg(t,1.8,2.2))})+L(560,1090,400,1130,{sw:6,op:eo(seg(t,1.9,2.3))}),
+ (t,d)=>{ const a=eo(seg(t,.5,1.2)); return T(CX,520,58,'LA SOLUCIÓN USA',{op:eo(seg(t,0,.5))})
+   + R(60,600,840,150,{fill:W,op:a})+T(CX,705,64,'AWS CLOUD WAN',{f:K,op:a})
+   + T(CX,860,44,'+',{op:eo(seg(t,1.4,1.8))})
+   + R(60,920,840,150,{op:eo(seg(t,1.6,2.2))})+T(CX,1025,60,'AS_PATH PREPEND',{op:eo(seg(t,1.6,2.2))}); },
+ (t,d)=>{ let s=title('PREPEND:','ALARGAR LA RUTA ANUNCIADA',t,58);
+   s+=T(70,790,28,'ENLACE 1',{a:'start',m:1,f:G,op:eo(seg(t,.6,1))});
+   for(let i=0;i<4;i++){ const p=eo(seg(t,.9+i*.45,1.3+i*.45)); s+=boxL(70+i*105,810,90,80,'AS',{op:p}); }
+   s+=T(70,1000,28,'ENLACE 2',{a:'start',m:1,f:G,op:eo(seg(t,.6,1))});
+   s+=boxL(70,1020,90,80,'AS',{op:eo(seg(t,.9,1.3))});
+   s+=T(CX,1220,30,'AS = sistema autónomo',{m:1,f:G,op:eo(seg(t,2.6,3.2))}); return s; },
+ (t,d)=>{ let s=title('RUTA MÁS LARGA','= MENOS PREFERIDA',t,60);
+   const g1=eo(seg(t,.7,1.8)), g2=eo(seg(t,.7,1.8));
+   s+=T(70,800,28,'ENLACE 1',{a:'start',m:1,f:G})+R(70,820,720*g1,70,{fill:G,stroke:G});
+   s+=T(70,1000,28,'ENLACE 2',{a:'start',m:1,f:G})+R(70,1020,180*g2,70,{fill:W,stroke:W});
+   s+=T(790,865,28,'menos preferida',{a:'end',f:K,m:1,op:eo(seg(t,1.8,2.3))});
+   s+=T(70,1150,32,'preferida',{a:'start',m:1,op:eo(seg(t,2.2,2.8))}); return s; },
+ (t,d)=>{ const p=eo(seg(t,.8,2.4)); return title('EL TRÁFICO SE VA SOLO','POR EL OTRO ENLACE',t,58)+base(1)
+   + pk(t,Y1,5,.35,1-p)+pk(t,Y2,5,.35)+pk(t+.08,Y2,5,.35,p); },
+ (t,d)=>{ const p=eo(seg(t,1.2,1.8)); return title('PRIMERO DRENAS','DESPUÉS APAGAS',t,64)+base(1,{c1:G,o1:1-.5*p})+pk(t,Y2,6,.4)
+   + L(430,Y1-26,530,Y1+26,{sw:6,op:p})+L(530,Y1-26,430,Y1+26,{sw:6,op:p}); },
+ (t,d)=>{ let s=T(CX,400,64,'UN MANTENIMIENTO',{op:eo(seg(t,0,.4))})+T(CX,490,64,'SIN CAÍDAS',{op:eo(seg(t,.2,.6))});
+   const a=eo(seg(t,.9,1.6)); s+=R(130,620,700,130,{fill:W,op:a})+T(CX,705,50,'SE DISEÑA',{f:K,op:a});
+   s+=L(130,860,130+700*eo(seg(t,1.4,2.4)),860,{sw:2});
+   s+=T(CX,950,34,'no se improvisa',{m:1,f:G,op:eo(seg(t,2.4,3.0))}); return s; },
+ (t,d)=>{ let s=T(CX,640,84,'COMENTA',{op:eo(seg(t,0,.4))});
+   const a=eo(seg(t,.3,.8)); s+=R(120,720,720,190,{fill:W,op:a})+T(CX,855,118,'SISTEMA',{f:K,op:a});
+   s+=T(CX,1010,40,'y te envío mi guía',{m:1,op:eo(seg(t,.9,1.3))});
+   s+=T(CX,1100,34,'sígueme y comparte con tu equipo',{m:1,f:G,op:eo(seg(t,1.4,1.9))}); return s; }
+];
+
+const STAR='<path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z" fill="#F5F5F5"/>';
+function render(tg){
+  let acc=0, i=0; for(;i<SCENES.length;i++){ if(tg<acc+SCENES[i].dur) break; acc+=SCENES[i].dur; }
+  if(i>=SCENES.length){ i=SCENES.length-1; acc-=SCENES[i].dur; }
+  const tl=tg-acc, d=SCENES[i].dur, kk=(SCENES[i].base||d)/d, t=tl*kk;
+  const sc=Math.min(eo(seg(tl,0,.28)), 1-ei(seg(tl,d-.22,d)));
+  let body=DRAW[i](t,d);
+  let s=`<rect width="1080" height="1920" fill="${K}"/>`;
+  s+=`<g transform="translate(${CX} ${CY}) scale(${Math.max(sc,0.0001)}) translate(${-CX} ${-CY})">${body}</g>`;
+  if(sc<.2) s+=`<circle cx="${CX}" cy="${CY}" r="${10*(1-sc/.2)+2}" fill="${W}"/>`;
+  // marco fijo, etiqueta y marca de agua (zonas seguras)
+  s+=T(70,310,26,'[ARCHITECTURE]  REDES',{a:'start',m:1,f:G,ls:2});
+  s+=T(890,310,26,String(i+1).padStart(2,'0')+' / '+String(SCENES.length).padStart(2,'0'),{a:'end',m:1,f:G});
+  s+=L(70,330,890,330,{c:G,sw:1});
+  s+=`<g transform="translate(70 1425)"><g transform="scale(1.1)">${STAR}</g></g>`+T(112,1448,26,'JSRamirez · @jsramirezdev',{a:'start',m:1});
+  document.getElementById('s').innerHTML=s;
+}
+</script></body></html>
