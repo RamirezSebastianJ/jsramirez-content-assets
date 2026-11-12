@@ -1,0 +1,70 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'Space Grotesk';font-weight:500;src:url('../fonts/space-grotesk-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('../fonts/dm-sans-latin-400-normal.woff2') format('woff2')}
+html,body{margin:0;background:#0B0B0B;width:1080px;height:1920px;overflow:hidden}
+svg{display:block}
+text{font-family:'Space Grotesk';font-weight:700;fill:#F5F5F5}
+.m{font-weight:500}
+</style></head><body><svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+const SCENES = /*SCENES*/;
+const W='#F5F5F5', K='#0B0B0B', G='#8A8A8A', CX=480, CY=875;
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const eo=x=>1-Math.pow(1-cl(x),3), ei=x=>Math.pow(cl(x),3), eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const T=(x,y,s,str,o={})=>`<text x="${x}" y="${y}" font-size="${s}" text-anchor="${o.a||'middle'}" ${o.m?'class="m"':''} fill="${o.f||W}" style="fill:${o.f||W};opacity:${o.op??1}" ${o.ls?`letter-spacing="${o.ls}"`:''}>${str}</text>`;
+const R=(x,y,w,h,o={})=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${o.fill||'none'}" stroke="${o.stroke===undefined?W:o.stroke}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const L=(x1,y1,x2,y2,o={})=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${o.c||W}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const GX=135, GY=650, CW=90, GP=30;
+function grid(fn){ let s=''; for(let r=0;r<4;r++)for(let c=0;c<6;c++){ s+=fn(r,c,GX+c*(CW+GP),GY+r*(CW+GP),r*6+c);} return s; }
+const cross=(x,y,col)=>L(x+22,y+22,x+CW-22,y+CW-22,{c:col,sw:5})+L(x+CW-22,y+22,x+22,y+CW-22,{c:col,sw:5});
+
+
+const boxL=(x,y,w,h,lab,o={})=>R(x,y,w,h,{fill:o.fill||'none',stroke:o.stroke===undefined?W:o.stroke,d:o.d,op:o.op})+T(x+w/2,y+h/2+11,30,lab,{f:o.fill?K:W,op:o.op??1});
+const title=(a,b,t,sz=58)=>T(CX,430,sz,a,{op:eo(seg(t,0,.5))})+(b?T(CX,520,sz,b,{op:eo(seg(t,.2,.7))}):'');
+const APP=(o=1)=>boxL(380,720,200,100,'APP',{op:o}), DB=(o=1,l='BASE')=>boxL(100,980,220,110,l,{op:o}), CQ=(o=1)=>boxL(640,980,220,110,'COLA',{op:o});
+const baseA=(o=1,o1=1,o2=1)=>APP(o)+DB(o)+CQ(o)+L(440,820,230,980,{sw:3,op:o*o1})+L(520,820,740,980,{sw:3,op:o*o2});
+const mv=(x1,y1,x2,y2,p,op=1)=>`<rect x="${x1+(x2-x1)*p-9}" y="${y1+(y2-y1)*p-9}" width="18" height="18" fill="${W}" opacity="${op}"/>`;
+const XX=(x,y,a,s=26)=>L(x-s,y-s,x+s,y+s,{sw:6,op:a})+L(x+s,y-s,x-s,y+s,{sw:6,op:a});
+const DRAW=[
+ (t,d)=> title('¿Y SI GUARDAS EL PEDIDO','Y EL MENSAJE NUNCA SALE?',t,50)+baseA(eo(seg(t,.4,1)),1,.5)+mv(440,820,230,980,eo(seg(t,1.2,2.2)),eo(seg(t,1.1,1.3))*(1-eo(seg(t,2.2,2.4))))+T(790,900,70,'?',{op:eo(seg(t,2.2,2.8))}),
+ (t,d)=> title('DOS ESCRITURAS','POR SEPARADO',t,64)+baseA(1)+T(320,890,44,'1',{op:eo(seg(t,.8,1.2))})+T(670,890,44,'2',{op:eo(seg(t,1.6,2))})+mv(440,820,230,980,eo(seg(t,.9,1.6)))+mv(520,820,740,980,eo(seg(t,1.7,2.5))),
+ (t,d)=> title('DOS SISTEMAS DISTINTOS','SIN TRANSACCIÓN COMPARTIDA',t,50)+APP(1)+DB(1)+CQ(1)+L(320,1035,640,1035,{c:G,sw:3,d:'10 8',op:eo(seg(t,.8,1.4))})+XX(480,1035,eo(seg(t,1.4,1.9)))+T(480,1180,32,'cada uno confirma por su cuenta',{m:1,f:G,op:eo(seg(t,2,2.6))}),
+ (t,d)=> title('SI CAE EN MEDIO','SOLO OCURRE UNA',t,62)+baseA(1,1,1)+XX(630,900,eo(seg(t,1,1.5)))+T(210,1160,34,'GUARDADO',{m:1,op:eo(seg(t,1.8,2.3))})+T(750,1160,34,'PERDIDO',{m:1,f:G,op:eo(seg(t,2.1,2.6))}),
+ (t,d)=>{ const a=eo(seg(t,.5,1.1)); return title('PATRÓN OUTBOX',null,t,70)+R(100,720,760,330,{op:a})+T(130,765,26,'UNA SOLA TRANSACCIÓN',{a:'start',m:1,f:G,op:a})+R(140,800,300,180,{fill:W,op:eo(seg(t,1,1.6))})+T(290,905,44,'PEDIDO',{f:K,op:eo(seg(t,1,1.6))})+R(520,800,300,180,{op:eo(seg(t,1.7,2.3))})+T(670,905,44,'MENSAJE',{op:eo(seg(t,1.7,2.3))})+T(480,1130,34,'ambos en la misma base',{m:1,f:G,op:eo(seg(t,2.5,3.1))}); },
+ (t,d)=>{ let s=title('LA TABLA OUTBOX',null,t,66); s+=R(100,700,700,70,{fill:W,op:eo(seg(t,.4,.9))})+T(130,748,32,'id',{a:'start',f:K,op:eo(seg(t,.4,.9))})+T(260,748,32,'evento',{a:'start',f:K,op:eo(seg(t,.4,.9))})+T(600,748,32,'enviado',{a:'start',f:K,op:eo(seg(t,.4,.9))});
+   const rows=[['1','pedido_creado','sí'],['2','pedido_creado','sí'],['3','pedido_creado','no']];
+   rows.forEach((r,i)=>{const a=eo(seg(t,.9+i*.5,1.4+i*.5)),y=770+i*80; s+=R(100,y,700,80,{op:a,stroke:i==2?W:G,sw:i==2?4:1})+T(130,y+52,32,r[0],{a:'start',op:a})+T(260,y+52,32,r[1],{a:'start',op:a,m:1})+T(600,y+52,32,r[2],{a:'start',op:a});});
+   return s+T(480,1090,34,'el mensaje queda pendiente',{m:1,f:G,op:eo(seg(t,2.6,3.2))}); },
+ (t,d)=>{ const p=eo(seg(t,1,2.6)); return title('UN PROCESO APARTE','LEE LA TABLA Y PUBLICA',t,56)+boxL(70,820,210,110,'OUTBOX')+boxL(375,820,210,110,'RELAY',{fill:W})+boxL(680,820,210,110,'COLA')+L(280,875,375,875,{sw:3})+L(585,875,680,875,{sw:3})+mv(280,875,585,875,cl(p*2),1-cl(p*2-1))+mv(585,875,680,875,cl(p*2-1),cl(p*2-1)>0?1:0)+T(480,1020,32,'se publica una sola vez por fila',{m:1,f:G,op:eo(seg(t,2.6,3.2))}); },
+ (t,d)=> title('SI FALLA, REINTENTA','PUEDE LLEGAR REPETIDO',t,56)+boxL(375,820,210,110,'RELAY',{fill:W})+boxL(680,820,210,110,'COLA')+L(585,875,680,875,{sw:3})+mv(585,875,680,875,eo(seg(t,.8,1.4)))+XX(630,875,eo(seg(t,1.2,1.6)),16)+mv(585,875,680,875,eo(seg(t,1.9,2.5)))+mv(585,940,680,940,eo(seg(t,2.2,2.8)))+T(480,1080,36,'MISMO MENSAJE x2',{m:1,op:eo(seg(t,2.6,3.2))}),
+ (t,d)=>{ const a=eo(seg(t,.5,1.1)); return title('CONSUMIDOR','IDEMPOTENTE',t,72)+R(130,700,700,110,{op:a})+T(CX,772,40,'MISMO MENSAJE x2',{op:a})+L(480,830,480,900,{sw:3,op:eo(seg(t,1.2,1.6))})+R(130,920,700,110,{fill:W,op:eo(seg(t,1.4,2))})+T(CX,992,40,'UN SOLO EFECTO',{f:K,op:eo(seg(t,1.4,2))})+T(CX,1120,32,'guarda los ids ya procesados',{m:1,f:G,op:eo(seg(t,2.4,3))}); },
+ (t,d)=>{ let s=T(CX,400,64,'LA CONSISTENCIA',{op:eo(seg(t,0,.4))})+T(CX,490,64,'SE DISEÑA',{op:eo(seg(t,.2,.6))});
+   const a=eo(seg(t,.9,1.6)); s+=R(100,620,760,130,{fill:W,op:a})+T(CX,705,46,'EN UN SOLO LUGAR',{f:K,op:a});
+   s+=L(130,860,130+700*eo(seg(t,1.4,2.4)),860,{sw:2});
+   s+=T(CX,950,34,'no entre dos sistemas',{m:1,f:G,op:eo(seg(t,2.4,3.0))}); return s; },
+ (t,d)=>{ let s=T(CX,640,84,'COMENTA',{op:eo(seg(t,0,.4))});
+   const a=eo(seg(t,.3,.8)); s+=R(120,720,720,190,{fill:W,op:a})+T(CX,855,118,'SISTEMA',{f:K,op:a});
+   s+=T(CX,1010,40,'y te envío mi guía',{m:1,op:eo(seg(t,.9,1.3))});
+   s+=T(CX,1100,34,'sígueme y comparte con tu equipo',{m:1,f:G,op:eo(seg(t,1.4,1.9))}); return s; }
+];
+
+const STAR='<path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z" fill="#F5F5F5"/>';
+function render(tg){
+  let acc=0, i=0; for(;i<SCENES.length;i++){ if(tg<acc+SCENES[i].dur) break; acc+=SCENES[i].dur; }
+  if(i>=SCENES.length){ i=SCENES.length-1; acc-=SCENES[i].dur; }
+  const tl=tg-acc, d=SCENES[i].dur, kk=(SCENES[i].base||d)/d, t=tl*kk;
+  const sc=Math.min(eo(seg(tl,0,.28)), 1-ei(seg(tl,d-.22,d)));
+  let body=DRAW[i](t,d);
+  let s=`<rect width="1080" height="1920" fill="${K}"/>`;
+  s+=`<g transform="translate(${CX} ${CY}) scale(${Math.max(sc,0.0001)}) translate(${-CX} ${-CY})">${body}</g>`;
+  if(sc<.2) s+=`<circle cx="${CX}" cy="${CY}" r="${10*(1-sc/.2)+2}" fill="${W}"/>`;
+  // marco fijo, etiqueta y marca de agua (zonas seguras)
+  s+=T(70,310,26,'[ARCHITECTURE]  MENSAJERÍA',{a:'start',m:1,f:G,ls:2});
+  s+=T(890,310,26,String(i+1).padStart(2,'0')+' / '+String(SCENES.length).padStart(2,'0'),{a:'end',m:1,f:G});
+  s+=L(70,330,890,330,{c:G,sw:1});
+  s+=`<g transform="translate(70 1425)"><g transform="scale(1.1)">${STAR}</g></g>`+T(112,1448,26,'JSRamirez · @jsramirezdev',{a:'start',m:1});
+  document.getElementById('s').innerHTML=s;
+}
+</script></body></html>

@@ -1,0 +1,158 @@
+[
+ {
+  "dur": 3.8,
+  "voz": "¿Y si guardas el pedido, pero el mensaje nunca sale?",
+  "sfx": [
+   [
+    1.4,
+    "blip"
+   ],
+   [
+    2.4,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.2,
+  "voz": "Pasa al escribir en la base y publicar en la cola por separado.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Son dos sistemas distintos y no comparten transacción.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.6,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Si el proceso cae en medio, solo ocurre una de las dos cosas.",
+  "sfx": [
+   [
+    1.2,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.4,
+  "voz": "El patrón outbox guarda el pedido y el mensaje en la misma transacción.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.8,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "El mensaje queda en una tabla llamada outbox.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.5,
+    "blip"
+   ],
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.2,
+  "voz": "Un proceso aparte lee esa tabla y lo publica en la cola.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.2,
+  "voz": "Si falla, reintenta, así que el mensaje puede llegar repetido.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.4,
+    "thud"
+   ],
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "Por eso el consumidor debe ser idempotente.",
+  "sfx": [
+   [
+    1.4,
+    "blip"
+   ],
+   [
+    1.8,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Mi lección: la consistencia se diseña en un solo lugar, no entre dos sistemas.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    3.0,
+    "thud"
+   ]
+  ],
+  "cierre": true
+ },
+ {
+  "dur": 3.0,
+  "voz": "Comenta SISTEMA y te envío mi guía.",
+  "sfx": [
+   [
+    0.3,
+    "blip"
+   ]
+  ],
+  "cierre": true
+ }
+]

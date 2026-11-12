@@ -1,0 +1,3 @@
+# Fuentes
+- AWS Architecture Blog, "How OrderServ achieved up to 64% cost savings with multi-tenant ECS" (5 nov 2026, Cognizant y AWS Professional Services): https://aws.amazon.com/blogs/architecture/how-orderserv-achieved-up-to-64-cost-savings-with-multi-tenant-ecs/
+- Del índice del blog se leyó: caso OrderServ movido a oferta SaaS multi-tenant sobre Amazon ECS compartido; hasta 64% menos costo de cómputo, escalado de minutos a segundos, 80% menos costo de autenticación. NO se pudo abrir el artículo completo (WebFetch sin permiso). Las diapositivas 4-6 (silo vs pool, trade-offs, criterio) son explicación general propia, sin cifras: verificar los 3 resultados contra el original.

@@ -1,0 +1,11 @@
+1. ¿Y si guardas el pedido, pero el mensaje nunca sale?
+2. Pasa al escribir en la base y publicar en la cola por separado.
+3. Son dos sistemas distintos y no comparten transacción.
+4. Si el proceso cae en medio, solo ocurre una de las dos cosas.
+5. El patrón outbox guarda el pedido y el mensaje en la misma transacción.
+6. El mensaje queda en una tabla llamada outbox.
+7. Un proceso aparte lee esa tabla y lo publica en la cola.
+8. Si falla, reintenta, así que el mensaje puede llegar repetido.
+9. Por eso el consumidor debe ser idempotente.
+10. Mi lección: la consistencia se diseña en un solo lugar, no entre dos sistemas.   [CIERRE]
+11. Comenta SISTEMA y te envío mi guía.   [CIERRE]
