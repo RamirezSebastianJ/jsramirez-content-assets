@@ -1,0 +1,65 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'Space Grotesk';font-weight:500;src:url('../fonts/space-grotesk-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('../fonts/dm-sans-latin-400-normal.woff2') format('woff2')}
+html,body{margin:0;background:#0B0B0B;width:1080px;height:1920px;overflow:hidden}
+svg{display:block}
+text{font-family:'Space Grotesk';font-weight:700;fill:#F5F5F5}
+.m{font-weight:500}
+</style></head><body><svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+const SCENES = /*SCENES*/;
+const W='#F5F5F5', K='#0B0B0B', G='#8A8A8A', CX=480, CY=875;
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const eo=x=>1-Math.pow(1-cl(x),3), ei=x=>Math.pow(cl(x),3), eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const T=(x,y,s,str,o={})=>`<text x="${x}" y="${y}" font-size="${s}" text-anchor="${o.a||'middle'}" ${o.m?'class="m"':''} fill="${o.f||W}" style="fill:${o.f||W};opacity:${o.op??1}" ${o.ls?`letter-spacing="${o.ls}"`:''}>${str}</text>`;
+const R=(x,y,w,h,o={})=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${o.fill||'none'}" stroke="${o.stroke===undefined?W:o.stroke}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const L=(x1,y1,x2,y2,o={})=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${o.c||W}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const GX=135, GY=650, CW=90, GP=30;
+function grid(fn){ let s=''; for(let r=0;r<4;r++)for(let c=0;c<6;c++){ s+=fn(r,c,GX+c*(CW+GP),GY+r*(CW+GP),r*6+c);} return s; }
+const cross=(x,y,col)=>L(x+22,y+22,x+CW-22,y+CW-22,{c:col,sw:5})+L(x+CW-22,y+22,x+22,y+CW-22,{c:col,sw:5});
+
+
+const title=(a,b,t,sz=58)=>T(CX,430,sz,a,{op:eo(seg(t,0,.5))})+(b?T(CX,520,sz,b,{op:eo(seg(t,.2,.7))}):'');
+const XX=(x,y,a,s=26)=>L(x-s,y-s,x+s,y+s,{sw:6,op:a})+L(x+s,y-s,x-s,y+s,{sw:6,op:a});
+const OK=(x,y,a)=>L(x-26,y,x-8,y+20,{sw:7,op:a})+L(x-8,y+20,x+28,y-24,{sw:7,op:a});
+// pool compartido: 8 ranuras
+const POOL=(t,f,a=1,lab='SERVICIO')=>{ let s=R(100,720,760,300,{op:a})+T(130,765,26,lab,{a:'start',m:1,f:G,op:a}); for(let k=0;k<8;k++){ s+=R(151+k*84,850,70,70,{fill:k<f?W:'none',stroke:k<f?W:G,op:a}); } return s+T(130,985,26,'conexiones compartidas',{a:'start',m:1,f:G,op:a}); };
+const CX3=[100,365,630], CWID=230;
+const comp=(i,lab,n,f,o={})=>{ const x=CX3[i], a=o.a??1; let s=R(x,720,CWID,300,{op:a,stroke:o.stroke,sw:o.sw})+T(x+CWID/2,775,28,lab,{op:a,f:o.lf}); for(let k=0;k<n;k++){ const cx=x+CWID/2-62+(k%2)*68, cy=820+Math.floor(k/2)*68; s+=R(cx,cy,56,56,{fill:k<f?W:'none',stroke:k<f?W:G,d:(o.d&&k>=f)?'6 5':undefined,op:a}); } return s; };
+const DRAW=[
+ (t,d)=> title('¿Y SI UNA FUNCIÓN LENTA','TUMBA TODO EL SERVICIO?',t,50)+POOL(t,Math.floor(8*eo(seg(t,1.2,2.8))),eo(seg(t,.3,.9))),
+ (t,d)=>{ let s=title('UN SOLO GRUPO','DE RECURSOS COMPARTIDO',t,56); ['PAGOS','BÚSQUEDA','PERFIL'].forEach((n,i)=>{ const a=eo(seg(t,.4+i*.35,.9+i*.35)); s+=R(CX3[i],640,CWID,70,{op:a})+T(CX3[i]+CWID/2,686,28,n,{op:a})+L(CX3[i]+CWID/2,710,480,720,{c:G,sw:2,op:a}); }); return s+POOL(t,3,eo(seg(t,.4,1)))+T(480,1080,32,'todas usan las mismas conexiones',{m:1,f:G,op:eo(seg(t,2.2,2.8))}); },
+ (t,d)=> title('UNA DEPENDENCIA LENTA','SE QUEDA CON TODO',t,54)+R(CX3[0],640,CWID,70,{fill:W})+T(CX3[0]+CWID/2,686,28,'PAGOS LENTO',{f:K})+POOL(t,Math.floor(8*eo(seg(t,.8,2.4))),1)+T(480,1080,32,'ocupa todas las conexiones',{m:1,f:G,op:eo(seg(t,2.4,3))}),
+ (t,d)=> title('LAS DEMÁS ESPERAN','Y TAMBIÉN FALLAN',t,60)+comp(0,'PAGOS',4,4,{a:eo(seg(t,.4,.9))})+comp(1,'BÚSQUEDA',4,0,{a:eo(seg(t,.6,1.1)),d:1})+comp(2,'PERFIL',4,0,{a:eo(seg(t,.8,1.3)),d:1})+XX(CX3[1]+CWID/2,990,eo(seg(t,1.6,2.0)),22)+XX(CX3[2]+CWID/2,990,eo(seg(t,1.9,2.3)),22)+T(480,1110,32,'esperan una conexión que no llega',{m:1,f:G,op:eo(seg(t,2.6,3.2))}),
+ (t,d)=>{ let s=title('PATRÓN BULKHEAD','COMPARTIMENTOS',t,64); s+=R(100,720,760,300,{op:eo(seg(t,.3,.8))}); s+=L(353,720,353,1020,{sw:3,op:eo(seg(t,.9,1.4))})+L(607,720,607,1020,{sw:3,op:eo(seg(t,1.3,1.8))}); ['PAGOS','BÚSQUEDA','PERFIL'].forEach((n,i)=>{ s+=T(227+i*254,880,28,n,{op:eo(seg(t,1.8+i*.3,2.3+i*.3))}); }); return s+T(480,1110,32,'como los mamparos de un barco',{m:1,f:G,op:eo(seg(t,2.9,3.5))}); },
+ (t,d)=>{ let s=title('CADA DEPENDENCIA','SU PROPIO LÍMITE',t,60); ['PAGOS','BÚSQUEDA','PERFIL'].forEach((n,i)=>{ s+=comp(i,n,4,Math.floor(2*eo(seg(t,1+i*.3,1.6+i*.3))),{a:eo(seg(t,.3+i*.3,.8+i*.3)),d:1}); }); return s+T(480,1110,32,'cada una con su cupo de conexiones',{m:1,f:G,op:eo(seg(t,2.6,3.2))}); },
+ (t,d)=> title('SI UNA SE SATURA','SOLO ESE SE LLENA',t,60)+comp(0,'PAGOS',4,Math.floor(4*eo(seg(t,.6,1.6))),{stroke:W,sw:4})+comp(1,'BÚSQUEDA',4,2,{d:1})+comp(2,'PERFIL',4,1,{d:1})+XX(CX3[0]+CWID/2,990,eo(seg(t,1.8,2.3)),22)+T(480,1110,32,'el daño queda en un compartimento',{m:1,f:G,op:eo(seg(t,2.6,3.2))}),
+ (t,d)=> title('EL RESTO SIGUE','RESPONDIENDO',t,64)+comp(0,'PAGOS',4,4,{lf:G,stroke:G,a:.5})+comp(1,'BÚSQUEDA',4,2,{d:1})+comp(2,'PERFIL',4,1,{d:1})+OK(CX3[1]+CWID/2,990,eo(seg(t,1,1.5)))+OK(CX3[2]+CWID/2,990,eo(seg(t,1.4,1.9)))+T(480,1110,32,'los usuarios siguen trabajando',{m:1,f:G,op:eo(seg(t,2.2,2.8))}),
+ (t,d)=> title('EL COSTO','RECURSOS RESERVADOS',t,64)+comp(0,'PAGOS',4,1,{d:1})+comp(1,'BÚSQUEDA',4,1,{d:1})+comp(2,'PERFIL',4,1,{d:1})+T(480,1110,34,'a veces quedan sin usar',{m:1,op:eo(seg(t,1.4,2))})+T(480,1160,30,'es el precio del aislamiento',{m:1,f:G,op:eo(seg(t,2.2,2.8))}),
+ (t,d)=>{ let s=T(CX,400,64,'NO EVITES EL FALLO',{op:eo(seg(t,0,.4))}); const a=eo(seg(t,.9,1.6)); s+=R(100,520,760,230,{fill:W,op:a})+T(CX,610,46,'LIMITA',{f:K,op:a})+T(CX,690,46,'HASTA DÓNDE LLEGA',{f:K,op:a}); s+=L(130,860,130+700*eo(seg(t,1.4,2.4)),860,{sw:2}); return s+T(CX,950,34,'el fallo va a ocurrir',{m:1,f:G,op:eo(seg(t,2.4,3.0))}); },
+ (t,d)=>{ let s=T(CX,640,84,'COMENTA',{op:eo(seg(t,0,.4))});
+   const a=eo(seg(t,.3,.8)); s+=R(120,720,720,190,{fill:W,op:a})+T(CX,855,118,'SISTEMA',{f:K,op:a});
+   s+=T(CX,1010,40,'y te envío mi guía',{m:1,op:eo(seg(t,.9,1.3))});
+   s+=T(CX,1100,34,'sígueme y comparte con tu equipo',{m:1,f:G,op:eo(seg(t,1.4,1.9))}); return s; }
+];
+
+const STAR='<path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z" fill="#F5F5F5"/>';
+function render(tg){
+  let acc=0, i=0; for(;i<SCENES.length;i++){ if(tg<acc+SCENES[i].dur) break; acc+=SCENES[i].dur; }
+  if(i>=SCENES.length){ i=SCENES.length-1; acc-=SCENES[i].dur; }
+  const tl=tg-acc, d=SCENES[i].dur, kk=(SCENES[i].base||d)/d, t=tl*kk;
+  const sc=Math.min(eo(seg(tl,0,.28)), 1-ei(seg(tl,d-.22,d)));
+  let body=DRAW[i](t,d);
+  let s=`<rect width="1080" height="1920" fill="${K}"/>`;
+  s+=`<g transform="translate(${CX} ${CY}) scale(${Math.max(sc,0.0001)}) translate(${-CX} ${-CY})">${body}</g>`;
+  if(sc<.2) s+=`<circle cx="${CX}" cy="${CY}" r="${10*(1-sc/.2)+2}" fill="${W}"/>`;
+  // marco fijo, etiqueta y marca de agua (zonas seguras)
+  s+=T(70,310,26,'[ARCHITECTURE]  RESILIENCIA',{a:'start',m:1,f:G,ls:2});
+  s+=T(890,310,26,String(i+1).padStart(2,'0')+' / '+String(SCENES.length).padStart(2,'0'),{a:'end',m:1,f:G});
+  s+=L(70,330,890,330,{c:G,sw:1});
+  s+=`<g transform="translate(70 1425)"><g transform="scale(1.1)">${STAR}</g></g>`+T(112,1448,26,'JSRamirez · @jsramirezdev',{a:'start',m:1});
+  document.getElementById('s').innerHTML=s;
+}
+</script></body></html>

@@ -1,0 +1,11 @@
+1. ¿Y si una sola función lenta tumba todo tu servicio?
+2. Pasa cuando todas comparten el mismo grupo de conexiones.
+3. Una dependencia lenta se queda con todos los recursos.
+4. Las demás funciones esperan y también fallan.
+5. El patrón bulkhead separa los recursos en compartimentos.
+6. Cada dependencia tiene su propio límite de conexiones.
+7. Si una se satura, solo ese compartimento se llena.
+8. El resto del servicio sigue respondiendo.
+9. El costo: recursos reservados que a veces quedan sin usar.
+10. Mi lección: no evites el fallo, limita hasta dónde llega.   [CIERRE]
+11. Comenta SISTEMA y te envío mi guía.   [CIERRE]
