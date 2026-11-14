@@ -1,0 +1,158 @@
+[
+ {
+  "dur": 3.6,
+  "voz": "¿Y si tu sistema de consenso no necesitara un líder fijo?",
+  "sfx": [
+   [
+    1.4,
+    "blip"
+   ],
+   [
+    2.4,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "Raft y Multi-Paxos dependen de un líder.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.6,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Si el líder falla, hay que detectarlo y elegir otro.",
+  "sfx": [
+   [
+    1.2,
+    "thud"
+   ],
+   [
+    2.8,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Mientras tanto, el sistema puede quedarse sin escribir.",
+  "sfx": [
+   [
+    1.2,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.2,
+  "voz": "Cloudflare probó QuePaxa en un servicio experimental llamado Meerkat.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.5,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.8,
+  "voz": "Aquí el líder es opcional: si falla, otro nodo puede proponer.",
+  "sfx": [
+   [
+    1.0,
+    "thud"
+   ],
+   [
+    2.2,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "En vez de detectar fallos, el cliente envía a todas las réplicas.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.3,
+    "blip"
+   ],
+   [
+    1.6,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Cada propuesta lleva una prioridad aleatoria y gana la más alta.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    2.6,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "El costo: si no decide a la primera, necesita más viajes de ida y vuelta.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    1.9,
+    "blip"
+   ],
+   [
+    2.6,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "Mi lección: no apuestes todo a un solo líder.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    2.6,
+    "thud"
+   ]
+  ],
+  "cierre": true
+ },
+ {
+  "dur": 3.0,
+  "voz": "Comenta SISTEMA y te envío mi guía.",
+  "sfx": [
+   [
+    0.3,
+    "blip"
+   ]
+  ],
+  "cierre": true
+ }
+]

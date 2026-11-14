@@ -1,0 +1,11 @@
+1. ¿Y si tu sistema de consenso no necesitara un líder fijo?
+2. Raft y Multi-Paxos dependen de un líder.
+3. Si el líder falla, hay que detectarlo y elegir otro.
+4. Mientras tanto, el sistema puede quedarse sin escribir.
+5. Cloudflare probó QuePaxa en un servicio experimental llamado Meerkat.
+6. Aquí el líder es opcional: si falla, otro nodo puede proponer.
+7. En vez de detectar fallos, el cliente envía a todas las réplicas.
+8. Cada propuesta lleva una prioridad aleatoria y gana la más alta.
+9. El costo: si no decide a la primera, necesita más viajes de ida y vuelta.
+10. Mi lección: no apuestes todo a un solo líder.   [CIERRE]
+11. Comenta SISTEMA y te envío mi guía.   [CIERRE]

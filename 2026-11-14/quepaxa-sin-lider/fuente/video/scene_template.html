@@ -1,0 +1,60 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'Space Grotesk';font-weight:500;src:url('../fonts/space-grotesk-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('../fonts/dm-sans-latin-400-normal.woff2') format('woff2')}
+html,body{margin:0;background:#0B0B0B;width:1080px;height:1920px;overflow:hidden}
+svg{display:block}
+text{font-family:'Space Grotesk';font-weight:700;fill:#F5F5F5}
+.m{font-weight:500}
+</style></head><body><svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+const SCENES = /*SCENES*/;
+const W='#F5F5F5', K='#0B0B0B', G='#8A8A8A', CX=480, CY=875;
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const eo=x=>1-Math.pow(1-cl(x),3), ei=x=>Math.pow(cl(x),3), eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const T=(x,y,s,str,o={})=>`<text x="${x}" y="${y}" font-size="${s}" text-anchor="${o.a||'middle'}" ${o.m?'class="m"':''} fill="${o.f||W}" style="fill:${o.f||W};opacity:${o.op??1}" ${o.ls?`letter-spacing="${o.ls}"`:''}>${str}</text>`;
+const R=(x,y,w,h,o={})=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${o.fill||'none'}" stroke="${o.stroke===undefined?W:o.stroke}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const L=(x1,y1,x2,y2,o={})=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${o.c||W}" stroke-width="${o.sw||2}" ${o.d?`stroke-dasharray="${o.d}"`:''} opacity="${o.op??1}"/>`;
+const title=(a,b,t,sz=58)=>T(CX,430,sz,a,{op:eo(seg(t,0,.5))})+(b?T(CX,520,sz,b,{op:eo(seg(t,.2,.7))}):'');
+const XX=(x,y,a,s=26)=>L(x-s,y-s,x+s,y+s,{sw:6,op:a})+L(x+s,y-s,x-s,y+s,{sw:6,op:a});
+const NX=i=>140+i*150, NW=100, NY=760;
+const nodes=(o={})=>{ let s=''; for(let i=0;i<5;i++){ const st=(o.st&&o.st[i])||0; // 0 normal,1 lleno,2 discontinuo,3 tachado
+  const a=(o.a??1); s+=R(NX(i),NY,NW,NW,{fill:st==1?W:'none',stroke:st==2?G:W,d:st==2?'7 6':undefined,op:a,sw:2})+T(NX(i)+NW/2,NY+NW/2+9,26,'R'+(i+1),{f:st==1?K:(st==2?G:W),op:a,m:1}); if(st==3){ s+=XX(NX(i)+NW/2,NY+NW/2,a,30);} } return s; };
+const lab=(x,y,str,o={})=>T(x,y,28,str,{m:1,f:o.f||G,op:o.op??1});
+const sub=(s,t,a,b)=>T(480,1110,32,s,{m:1,f:G,op:eo(seg(t,a,b))});
+const DRAW=[
+ (t,d)=> title('¿Y SI EL CONSENSO','NO NECESITARA LÍDER?',t,54)+nodes({st:[1,0,0,0,0],a:eo(seg(t,.4,1))})+lab(NX(0)+NW/2,NY-24,'LÍDER',{op:eo(seg(t,1.2,1.8)),f:W})+sub('un grupo de réplicas que acuerdan un valor',t,2.0,2.6),
+ (t,d)=>{ let s=title('RAFT Y MULTI-PAXOS','DEPENDEN DE UN LÍDER',t,54)+nodes({st:[1,0,0,0,0]}); for(let i=1;i<5;i++){ s+=L(NX(0)+NW/2,NY+NW,NX(i)+NW/2,NY+NW+120,{op:eo(seg(t,.6+i*.2,1.2+i*.2)),sw:2}); s+=R(NX(i),NY+NW+120,NW,12,{fill:G,stroke:G,op:eo(seg(t,.6+i*.2,1.2+i*.2))}); } return s+sub('todas las escrituras pasan por él',t,2.0,2.6); },
+ (t,d)=> title('SI EL LÍDER FALLA','HAY QUE ELEGIR OTRO',t,54)+nodes({st:[eo(seg(t,.9,1.2))>.5?3:1,0,0,0,0]})+lab(480,NY+NW+90,'detectar el fallo',{op:eo(seg(t,1.6,2.1)),f:W})+lab(480,NY+NW+135,'y luego elegir a otro líder',{op:eo(seg(t,2.3,2.8))}),
+ (t,d)=>{ let s=title('MIENTRAS TANTO','NADIE ESCRIBE',t,60)+nodes({st:[3,2,2,2,2]}); s+=R(140,NY+NW+80,700,26,{op:eo(seg(t,.4,.9))}); s+=R(140,NY+NW+80,700*eo(seg(t,.6,2.8)),26,{fill:W,stroke:W}); return s+lab(480,NY+NW+170,'tiempo sin poder escribir',{op:eo(seg(t,1.2,1.8))}); },
+ (t,d)=> title('CLOUDFLARE: QUEPAXA','SERVICIO EXPERIMENTAL MEERKAT',t,46)+nodes({st:[0,0,0,0,0],a:eo(seg(t,.4,1))})+lab(480,NY-30,'MEERKAT',{f:W,op:eo(seg(t,1,1.5))})+sub('réplicas repartidas por varios continentes',t,2.0,2.6),
+ (t,d)=>{ let s=title('EL LÍDER ES OPCIONAL','SI FALLA, OTRO PROPONE',t,50); const f=eo(seg(t,1.4,1.8))>.5; s+=nodes({st:[3,f?1:0,0,0,0]}); s+=lab(NX(1)+NW/2,NY-24,'PROPONE',{f:W,op:eo(seg(t,1.8,2.3))}); return s+sub('no hace falta esperar una elección',t,2.4,3.0); },
+ (t,d)=>{ let s=title('SIN DETECTAR FALLOS','EL CLIENTE ENVÍA A TODAS',t,52); s+=R(380,580,200,70,{op:eo(seg(t,.3,.8))})+T(480,626,28,'CLIENTE',{op:eo(seg(t,.3,.8))}); for(let i=0;i<5;i++){ s+=L(480,650,NX(i)+NW/2,NY,{c:W,sw:2,op:eo(seg(t,.9+i*.25,1.4+i*.25))}); } s+=nodes({st:[0,0,0,0,0]}); return s+sub('un temporizador corto suma proponentes',t,2.4,3.0); },
+ (t,d)=>{ let s=title('PRIORIDAD ALEATORIA','GANA LA MÁS ALTA',t,54); const P=[3,7,5]; P.forEach((p,i)=>{ const x=140+i*250, a=eo(seg(t,.4+i*.35,.9+i*.35)); const win=(i==1&&eo(seg(t,2.2,2.6))>.5); s+=R(x,720,200,150,{fill:win?W:'none',op:a})+T(x+100,775,24,'PROPUESTA',{f:win?K:G,m:1,op:a})+T(x+100,840,64,String(p),{f:win?K:W,op:a}); }); return s+sub('los proponentes adoptan la de mayor prioridad',t,2.8,3.4); },
+ (t,d)=>{ let s=title('EL COSTO','MÁS VIAJES SI NO DECIDE',t,60); s+=lab(300,720,'a la primera',{f:W,op:eo(seg(t,.4,.9))})+L(180,770,420,770,{sw:3,op:eo(seg(t,.5,1))})+lab(780,720,'si no decide',{f:W,op:eo(seg(t,1.2,1.7))}); for(let k=0;k<3;k++){ s+=L(620,770+k*50,860,770+k*50,{sw:3,op:eo(seg(t,1.3+k*.4,1.8+k*.4))}); } return s+sub('menos rendimiento cuando no decide en la primera fase',t,2.8,3.4); },
+ (t,d)=>{ let s=T(CX,400,56,'NO APUESTES TODO',{op:eo(seg(t,0,.4))}); const a=eo(seg(t,.9,1.6)); s+=R(100,520,760,230,{fill:W,op:a})+T(CX,640,46,'A UN SOLO LÍDER',{f:K,op:a}); s+=L(130,860,130+700*eo(seg(t,1.4,2.4)),860,{sw:2}); return s+T(CX,950,34,'un punto único de fallo',{m:1,f:G,op:eo(seg(t,2.4,3.0))}); },
+ (t,d)=>{ let s=T(CX,640,84,'COMENTA',{op:eo(seg(t,0,.4))});
+   const a=eo(seg(t,.3,.8)); s+=R(120,720,720,190,{fill:W,op:a})+T(CX,855,118,'SISTEMA',{f:K,op:a});
+   s+=T(CX,1010,40,'y te envío mi guía',{m:1,op:eo(seg(t,.9,1.3))});
+   s+=T(CX,1100,34,'sígueme y comparte con tu equipo',{m:1,f:G,op:eo(seg(t,1.4,1.9))}); return s; }
+];
+
+const STAR='<path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z" fill="#F5F5F5"/>';
+function render(tg){
+  let acc=0, i=0; for(;i<SCENES.length;i++){ if(tg<acc+SCENES[i].dur) break; acc+=SCENES[i].dur; }
+  if(i>=SCENES.length){ i=SCENES.length-1; acc-=SCENES[i].dur; }
+  const tl=tg-acc, d=SCENES[i].dur, kk=(SCENES[i].base||d)/d, t=tl*kk;
+  const sc=Math.min(eo(seg(tl,0,.28)), 1-ei(seg(tl,d-.22,d)));
+  let body=DRAW[i](t,d);
+  let s=`<rect width="1080" height="1920" fill="${K}"/>`;
+  s+=`<g transform="translate(${CX} ${CY}) scale(${Math.max(sc,0.0001)}) translate(${-CX} ${-CY})">${body}</g>`;
+  if(sc<.2) s+=`<circle cx="${CX}" cy="${CY}" r="${10*(1-sc/.2)+2}" fill="${W}"/>`;
+  // marco fijo, etiqueta y marca de agua (zonas seguras)
+  s+=T(70,310,26,'[ARCHITECTURE]  CONSENSO',{a:'start',m:1,f:G,ls:2});
+  s+=T(890,310,26,String(i+1).padStart(2,'0')+' / '+String(SCENES.length).padStart(2,'0'),{a:'end',m:1,f:G});
+  s+=L(70,330,890,330,{c:G,sw:1});
+  s+=`<g transform="translate(70 1425)"><g transform="scale(1.1)">${STAR}</g></g>`+T(112,1448,26,'JSRamirez · @jsramirezdev',{a:'start',m:1});
+  document.getElementById('s').innerHTML=s;
+}
+</script></body></html>
