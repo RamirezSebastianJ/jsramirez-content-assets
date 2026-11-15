@@ -1,0 +1,11 @@
+1. ¿Y si tu alerta de gasto llega cuando ya gastaste de más?
+2. Una alerta informa, pero no frena nada.
+3. Cloudflare lanzó topes de gasto para Workers y Durable Objects.
+4. El reto: contar el uso sin frenar ninguna petición.
+5. Primero agregan el uso cerca de donde se genera.
+6. El motor de cobro ve un total, no cada evento.
+7. El tope se calcula aparte y viaja a los servidores de borde.
+8. Así, ninguna petición espera al motor de cobro.
+9. El costo: el tope no es instantáneo, depende de cuánto tarde en propagarse.
+10. Mi lección: no pongas el control pesado en el camino de cada petición.   [CIERRE]
+11. Comenta SISTEMA y te envío mi guía.   [CIERRE]

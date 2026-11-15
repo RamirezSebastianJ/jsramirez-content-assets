@@ -1,0 +1,166 @@
+[
+ {
+  "dur": 3.8,
+  "voz": "¿Y si tu alerta de gasto llega cuando ya gastaste de más?",
+  "sfx": [
+   [
+    1.4,
+    "blip"
+   ],
+   [
+    2.4,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 3.4,
+  "voz": "Una alerta informa, pero no frena nada.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.9,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Cloudflare lanzó topes de gasto para Workers y Durable Objects.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.7,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "El reto: contar el uso sin frenar ninguna petición.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    2.0,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Primero agregan el uso cerca de donde se genera.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.6,
+    "blip"
+   ],
+   [
+    2.2,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.6,
+  "voz": "El motor de cobro ve un total, no cada evento.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    1.8,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "El tope se calcula aparte y viaja a los servidores de borde.",
+  "sfx": [
+   [
+    1.1,
+    "blip"
+   ],
+   [
+    1.7,
+    "blip"
+   ],
+   [
+    2.3,
+    "blip"
+   ]
+  ]
+ },
+ {
+  "dur": 3.8,
+  "voz": "Así, ninguna petición espera al motor de cobro.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    2.0,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.2,
+  "voz": "El costo: el tope no es instantáneo, depende de cuánto tarde en propagarse.",
+  "sfx": [
+   [
+    1.0,
+    "blip"
+   ],
+   [
+    1.8,
+    "blip"
+   ],
+   [
+    2.6,
+    "thud"
+   ]
+  ]
+ },
+ {
+  "dur": 4.0,
+  "voz": "Mi lección: no pongas el control pesado en el camino de cada petición.",
+  "sfx": [
+   [
+    1.2,
+    "blip"
+   ],
+   [
+    2.6,
+    "thud"
+   ]
+  ],
+  "cierre": true
+ },
+ {
+  "dur": 3.0,
+  "voz": "Comenta SISTEMA y te envío mi guía.",
+  "sfx": [
+   [
+    0.3,
+    "blip"
+   ]
+  ],
+  "cierre": true
+ }
+]
